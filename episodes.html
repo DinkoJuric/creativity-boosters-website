@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Episodes | Creativity Boosters Podcast</title>
+    <meta name="description"
+        content="Browse the complete archive of Creativity Boosters podcast episodes. Innovation strategies, expert interviews, and creative toolkits.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚀</text></svg>">
+</head>
+
+<body class="page-episodes">
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container nav-content">
+            <a href="index.html" class="logo">Creativity Boosters<span>.</span></a>
+            <div class="nav-links">
+                <a href="index.html#about">About</a>
+                <a href="episodes.html" class="active">Episodes</a>
+                <a href="index.html#subscribe">Subscribe</a>
+                <a href="https://open.spotify.com/show/5LZ5ra5zWRAIUB9JzFCre7" target="_blank"
+                    class="btn btn-primary">Listen Now</a>
+            </div>
+            <button class="menu-toggle" aria-label="Toggle Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <header class="hero small-hero">
+        <div class="container">
+            <div class="hero-text fade-in-up" style="text-align: center; max-width: 800px; margin: 0 auto;">
+                <span class="badge">The Portfolio</span>
+                <h1>Episode Archive</h1>
+                <p>Every strategy, interview, and framework we've ever discussed. Search the collection below.</p>
+            </div>
+        </div>
+    </header>
+
+    <!-- Episodes Grid -->
+    <section class="episodes-section section-padding">
+        <div class="container">
+            <div id="episodes-grid" class="episodes-grid">
+                <!-- Populated by script.js -->
+                <div class="loading-state">
+                    <div class="spinner"></div>
+                    <p>Loading archive...</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pre-Footer Call to Action -->
+    <section class="section-padding" style="text-align: center; background: rgba(255,255,255,0.5);">
+        <div class="container">
+            <h2>Ready to transform your workflow?</h2>
+            <p style="margin-bottom: 2rem;">Join thousands of listeners building the future.</p>
+            <a href="index.html#subscribe" class="btn btn-primary">Subscribe to Newsletter</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <h3>Creativity Boosters</h3>
+                    <p>Innovation for the 8 AM meeting.</p>
+                </div>
+                <div class="footer-links">
+                    <a href="#">Contact</a>
+                    <a href="#">Suggest a Guest</a>
+                    <a href="#">Privacy Policy</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Creativity Boosters Podcast. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Episode Details Modal -->
+    <div id="episode-modal" class="modal-overlay">
+        <div class="modal-container">
+            <button class="modal-close" aria-label="Close Modal">&times;</button>
+            <div class="modal-content" id="modal-body">
+                <!-- Content injected by JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="episodes_data.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>

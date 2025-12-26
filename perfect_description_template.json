@@ -1,0 +1,76 @@
+{
+    "description_template": {
+        "structure": [
+            {
+                "section": "The Hook",
+                "rules": [
+                    "Max 2 sentences.",
+                    "Must open a 'loop' (ask a question or state a controversial fact).",
+                    "NO generic intros ('Welcome to the podcast...')."
+                ],
+                "example": "Is China actually innovating, or just copying at a massive scale?"
+            },
+            {
+                "section": "The Context",
+                "rules": [
+                    "2-3 sentences explaining 'Why this matters now'.",
+                    "Include specific stakes (money, career, future)."
+                ],
+                "example": "With over $500 billion in annual R&D, China is challenging the West in AI, EVs, and Fintech. But do the numbers tell the whole story? We break down the reality of the 'Chinese Innovation Machine'."
+            },
+            {
+                "section": "Key Takeaways (The Meat)",
+                "rules": [
+                    "3-5 Bullet points.",
+                    "Use emojis for visual breaks.",
+                    "Bold not just the start, but the 'benefit'.",
+                    "Include high-value keywords naturally."
+                ],
+                "example": [
+                    "🚀 **The 'Strategic Replication' Myth:** Why copying is harder than it looks.",
+                    "💰 **The $500 Billion Bet:** Where the money is actually going.",
+                    "⚡ **3 Industries Leading the Pack:** AI, 5G, and Electric Vehicles."
+                ]
+            },
+            {
+                "section": "Timestamps",
+                "rules": [
+                    "Select the top 3-5 most interesting moments.",
+                    "Don't list every single minute."
+                ],
+                "example": "(02:42) Shifting Perspectives\n(19:36) Manufacturing Dominance"
+            },
+            {
+                "section": "SEO Footer / Show Notes",
+                "rules": [
+                    "Paragraph form.",
+                    "Include secondary keywords.",
+                    "Links to website, socials, and guest info."
+                ],
+                "example": "In this deep dive, Dinko and Nikhil explore global innovation trends... discussing [Keyword 1], [Keyword 2], and [Keyword 3]..."
+            }
+        ]
+    },
+    "renaming_examples": [
+        {
+            "original_title": "Is China dominating Innovation? | Creativity Boosters Episode 29",
+            "improved_title": "Is China Innovating or Just Copying? The $500B Reality",
+            "why_it_wins": "Adds specific stakes ($500B) and directly addresses the listener's skepticism (Copying vs Innovating)."
+        },
+        {
+            "original_title": "Balancing Logic and Imagination: Unleashing High IQ and High CQ in Everyday Business | Creativity Boosters Episode 28",
+            "improved_title": "Logic vs. Imagination: Why High IQ Teams Fail at Business",
+            "why_it_wins": "Removes the academic fluff. Creates conflict ('vs') and a fear of failure ('Why teams fail')."
+        },
+        {
+            "original_title": "The Creative Scorecard: Benchmarking U.S. Presidents on Innovation | Creativity Boosters Episode 27",
+            "improved_title": "Ranking U.S. Presidents by Creativity (From Lincoln to Trump)",
+            "why_it_wins": "Active verb ('Ranking'). explicitly names the famous figures which are keywords. 'Scorecard' is vague; 'Ranking' is definitive."
+        },
+        {
+            "original_title": "How to Create a Culture of Innovation | Creativity Boosters Episode 24",
+            "improved_title": "5 Steps to Kill Bureaucracy and Spark Innovation",
+            "why_it_wins": "Transform generic 'Create Culture' into an active fight against a common enemy ('Bureaucracy'). Uses a number (5 Steps)."
+        }
+    ]
+}

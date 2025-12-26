@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creativity Boosters Podcast | Innovation & Creative Thinking</title>
+    <meta name="description"
+        content="Unlock your creative potential with the Creativity Boosters podcast. Expert interviews, actionable frameworks, and strategies to drive innovation in your business and career.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚀</text></svg>">
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container nav-content">
+            <a href="#" class="logo">Creativity Boosters<span>.</span></a>
+            <div class="nav-links">
+                <a href="#about">About</a>
+                <a href="episodes.html">Episodes</a>
+                <a href="#subscribe">Subscribe</a>
+                <a href="https://open.spotify.com/show/5LZ5ra5zWRAIUB9JzFCre7" target="_blank"
+                    class="btn btn-primary">Listen Now</a>
+            </div>
+            <button class="menu-toggle" aria-label="Toggle Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero">
+        <div class="container hero-content">
+            <div class="hero-text fade-in-up">
+                <h1>Decode Innovation.<br>Master Creativity.<br>Lead the Market.</h1>
+                <p>Deep dives, expert interviews, and actionable frameworks.</p>
+            </div>
+            <div class="hero-image fade-in-up" style="animation-delay: 0.2s;">
+                <img src="assets/brand-image.jpg" alt="Creativity Boosters" class="brand-img">
+            </div>
+        </div>
+    </header>
+
+    <!-- Episodes Section -->
+    <section id="episodes" class="episodes-section section-padding">
+        <div class="container">
+            <div style="display: flex; justify-content: space-between; align-items: end; margin-bottom: 3rem;">
+                <h2>Latest Episodes</h2>
+                <a href="episodes.html" class="btn btn-secondary desktop-only">View Full Archive &rarr;</a>
+            </div>
+
+            <div id="episodes-grid" class="episodes-grid">
+                <!-- Episodes will be populated here by script.js -->
+                <div class="loading-state">
+                    <div class="spinner"></div>
+                    <p>Loading latest insights...</p>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 3rem;" class="mobile-only">
+                <a href="episodes.html" class="btn btn-secondary">View Full Archive</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about-section section-padding">
+        <div class="container">
+            <div class="about-grid">
+                <div class="about-content fade-in-up">
+                    <span class="section-tag">About the Show</span>
+                    <h2>Are you tired of brainstorming sessions that go nowhere?</h2>
+
+                    <p><strong>Most people think innovation is luck. They are wrong. Innovation is a system.</strong>
+                    </p>
+
+                    <p><em>Creativity Boosters</em> bridges the gap between high-level theory and Monday morning
+                        execution. We don't just talk about "thinking outside the box"—we give you the blueprints to
+                        build a better box.</p>
+
+                    <p>Join Dinko and Nikhil as they deconstruct the strategies behind the world's most innovative
+                        companies and leaders. From analyzing China's R&D dominance to ranking U.S. Presidents on
+                        creativity, we cover the business of innovation from every angle.</p>
+
+                    <p style="font-size: 1.2rem; font-weight: 700; color: var(--primary-color);">Don't just compete.
+                        Create.</p>
+                </div>
+                <div class="about-stat-card fade-in-up" style="transition-delay: 0.2s;">
+                    <div class="stat-number">29+</div>
+                    <div class="stat-label">Episodes</div>
+                    <p style="margin-top: 1rem; opacity: 0.8; font-size: 0.9rem;">Packed with actionable strategies.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Subscribe Section -->
+    <section id="subscribe" class="subscribe-section section-padding">
+        <div class="container">
+            <div class="subscribe-card fade-in-up">
+                <div class="subscribe-content">
+                    <h2>Stay Creative</h2>
+                    <p>Join our newsletter for episode summaries, reading lists, and exclusive tools.</p>
+                    <form class="subscribe-form" onsubmit="event.preventDefault(); alert('Thanks for subscribing!');">
+                        <input type="email" placeholder="Enter your work email" required>
+                        <button type="submit" class="btn btn-primary">Subscribe</button>
+                    </form>
+                    <div class="social-links">
+                        <a href="#" aria-label="LinkedIn">LinkedIn</a>
+                        <a href="#" aria-label="Twitter">Twitter</a>
+                        <a href="#" aria-label="Instagram">Instagram</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <h3>Creativity Boosters</h3>
+                    <p>Innovation for the 8 AM meeting.</p>
+                </div>
+                <div class="footer-links">
+                    <a href="#">Contact</a>
+                    <a href="#">Suggest a Guest</a>
+                    <a href="#">Privacy Policy</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Creativity Boosters Podcast. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Episode Details Modal -->
+    <div id="episode-modal" class="modal-overlay">
+        <div class="modal-container">
+            <button class="modal-close" aria-label="Close Modal">&times;</button>
+            <div class="modal-content" id="modal-body">
+                <!-- Content injected by JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <!-- 1. Data File: Defines window.PODCAST_DATA -->
+    <script src="episodes_data.js"></script>
+    <!-- 2. Logic File: Uses PODCAST_DATA to render the page -->
+    <script src="script.js"></script>
+</body>
+
+</html>
