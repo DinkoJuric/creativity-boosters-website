@@ -1,0 +1,79 @@
+:root {
+    /* Brand Teal - Main Brand Color */
+    --color-brand-teal-50: #e0f2f1;
+    --color-brand-teal-100: #b2dfdb;
+    --color-brand-teal-200: #80cbc4;
+    --color-brand-teal-300: #4db6ac;
+    --color-brand-teal-400: #26a69a;
+    --color-brand-teal-500: #009688;
+    --color-brand-teal-600: #00897b;
+    --color-brand-teal-700: #00796b;
+    --color-brand-teal-800: #00695c;
+    --color-brand-teal-900: #004d40;
+    --color-brand-teal-950: #00251a;
+
+    /* Champagne Mist */
+    --color-champagne-mist-50: #fbf6e9;
+    --color-champagne-mist-100: #f7edd4;
+    --color-champagne-mist-200: #f0daa8;
+    --color-champagne-mist-300: #e8c87d;
+    --color-champagne-mist-400: #e0b652;
+    --color-champagne-mist-500: #d9a326;
+    --color-champagne-mist-600: #ad831f;
+    --color-champagne-mist-700: #826217;
+    --color-champagne-mist-800: #57410f;
+    --color-champagne-mist-900: #2b2108;
+    --color-champagne-mist-950: #1e1705;
+
+    /* Ink Black */
+    --color-ink-black-50: #edeff7;
+    --color-ink-black-100: #dcdfef;
+    --color-ink-black-200: #b9bedf;
+    --color-ink-black-300: #959ed0;
+    --color-ink-black-400: #727ec0;
+    --color-ink-black-500: #4f5eb0;
+    --color-ink-black-600: #3f4b8d;
+    --color-ink-black-700: #2f386a;
+    --color-ink-black-800: #202546;
+    --color-ink-black-900: #101323;
+    --color-ink-black-950: #0b0d19;
+
+    /* Frosted Blue */
+    --color-frosted-blue-50: #eaf9fa;
+    --color-frosted-blue-100: #d5f2f6;
+    --color-frosted-blue-200: #abe5ed;
+    --color-frosted-blue-300: #82d8e3;
+    --color-frosted-blue-400: #58cbda;
+    --color-frosted-blue-500: #2ebed1;
+    --color-frosted-blue-600: #2598a7;
+    --color-frosted-blue-700: #1c727d;
+    --color-frosted-blue-800: #124c54;
+    --color-frosted-blue-900: #09262a;
+    --color-frosted-blue-950: #061b1d;
+
+    /* Carrot Orange */
+    --color-carrot-orange-50: #fef4e7;
+    --color-carrot-orange-100: #fde9ce;
+    --color-carrot-orange-200: #fad49e;
+    --color-carrot-orange-300: #f8be6d;
+    --color-carrot-orange-400: #f6a83c;
+    --color-carrot-orange-500: #f4930b;
+    --color-carrot-orange-600: #c37509;
+    --color-carrot-orange-700: #925807;
+    --color-carrot-orange-800: #613b05;
+    --color-carrot-orange-900: #311d02;
+    --color-carrot-orange-950: #221502;
+
+    /* Golden Orange */
+    --color-golden-orange-50: #fdf5e7;
+    --color-golden-orange-100: #fbebd0;
+    --color-golden-orange-200: #f8d8a0;
+    --color-golden-orange-300: #f4c471;
+    --color-golden-orange-400: #f1b041;
+    --color-golden-orange-500: #ed9d12;
+    --color-golden-orange-600: #be7d0e;
+    --color-golden-orange-700: #8e5e0b;
+    --color-golden-orange-800: #5f3f07;
+    --color-golden-orange-900: #2f1f04;
+    --color-golden-orange-950: #211602;
+}

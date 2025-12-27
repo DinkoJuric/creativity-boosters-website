@@ -97,70 +97,83 @@ function openModal(episode) {
     `;
 
     modal.classList.add('active');
-}
 
-// Magic Formatter for Description
-function formatDescription(text) {
-    if (!text) return '';
-
-    // 1. Linkify URLs first
-    let formatted = text.replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank">$1</a>');
-
-    // 2. Split into lines for processing
-    let lines = formatted.split('\n');
-    let html = '';
-    let inList = false;
-
-    lines.forEach(line => {
-        let trimmed = line.trim();
-        if (!trimmed) {
-            if (inList) { html += '</ul>'; inList = false; }
-            return;
+    // Post-process to ensure spacing works even if regex failed
+    // We explicitly look for paragraphs starting with Emojis/Bullets
+    const paras = modalBody.querySelectorAll('p');
+    paras.forEach(p => {
+        const text = p.textContent.trim();
+        // Match non-word char at start (covers emojis, bullets)
+        if (text.length > 0 && !/^[\w"']/.test(text)) {
+            p.classList.add('emoji-list-item');
         }
-
-        // Detect Headers (e.g. "**Key Takeaways:**", "Chapters", "Extended description")
-        // Keywords: Takeaways, Lessons, Chapters, Timestamps, Links, Toolkit, Description
-        const headerKeywords = /Extended\s+description|Key\s+Takeaways|Key\s+Lessons|Chapters|Time\s?stamps|Timestamp|Links|Toolkit|Description/i;
-
-        // A line is a header if it only contains a keyword (plus optional bolding and punctuation)
-        // We strip non-alphanumeric chars to check if the core text matches our keywords
-        const coreText = trimmed.replace(/[\*\:#]/g, '').trim();
-
-        if (headerKeywords.test(coreText) && coreText.length < 30) {
-            if (inList) { html += '</ul>'; inList = false; }
-            html += `<h4>${coreText}</h4>`;
-            return;
-        }
-
-        // Detect Timestamps for styling (MM:SS or HH:MM:SS)
-        if (/^(\(?(\d{1,2}:)?\d{2}:\d{2}\)?)/.test(trimmed)) {
-            // Apply bolding to the timestamp part
-            let row = trimmed.replace(/^(\(?(\d{1,2}:)?\d{2}:\d{2}\)?)\s*/, '<strong>$1</strong> ');
-            // Also apply markdown bolding to the rest of the line
-            row = row.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-            html += `<p class="timestamp-row">${row}</p>`;
-            return;
-        }
-
-        // Detect Lists (lines starting with - or •)
-        if (/^[-•]/.test(trimmed)) {
-            if (!inList) { html += '<ul>'; inList = true; }
-            let content = trimmed.replace(/^[-•]\s*/, '');
-            content = content.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-            html += `<li>${content}</li>`;
-            return;
-        }
-
-        // Close list if open for regular paragraphs
-        if (inList) { html += '</ul>'; inList = false; }
-
-        // Regular Paragraph - Apply Markdown Bold
-        let para = trimmed.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-        html += `<p>${para}</p>`;
     });
 
-    if (inList) html += '</ul>';
-    return html;
+    // Magic Formatter for Description
+    function formatDescription(text) {
+        if (!text) return '';
+
+        // 1. Linkify URLs first
+        let formatted = text.replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank">$1</a>');
+
+        // 2. Split into lines for processing
+        let lines = formatted.split('\n');
+        let html = '';
+        let inList = false;
+
+        lines.forEach(line => {
+            let trimmed = line.trim();
+            if (!trimmed) {
+                if (inList) { html += '</ul>'; inList = false; }
+                return;
+            }
+
+            // Detect Headers (e.g. "**Key Takeaways:**", "Chapters", "Extended description")
+            // Keywords: Takeaways, Lessons, Chapters, Timestamps, Links, Toolkit, Description
+            const headerKeywords = /Extended\s+description|Key\s+Takeaways|Key\s+Lessons|Chapters|Time\s?stamps|Timestamp|Links|Toolkit|Description/i;
+
+            // A line is a header if it only contains a keyword (plus optional bolding and punctuation)
+            // We strip non-alphanumeric chars to check if the core text matches our keywords
+            const coreText = trimmed.replace(/[\*\:#]/g, '').trim();
+
+            if (headerKeywords.test(coreText) && coreText.length < 30) {
+                if (inList) { html += '</ul>'; inList = false; }
+                html += `<h4>${coreText}</h4>`;
+                return;
+            }
+
+            // Detect Timestamps for styling (MM:SS or HH:MM:SS)
+            if (/^(\(?(\d{1,2}:)?\d{2}:\d{2}\)?)/.test(trimmed)) {
+                // Apply bolding to the timestamp part
+                let row = trimmed.replace(/^(\(?(\d{1,2}:)?\d{2}:\d{2}\)?)\s*/, '<strong>$1</strong> ');
+                // Also apply markdown bolding to the rest of the line
+                row = row.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+                html += `<p class="timestamp-row">${row}</p>`;
+                return;
+            }
+
+            // Detect Lists
+            // Strategy: If it DOES NOT start with a standard letter, number, or quote, treat it as a bullet/list item.
+            // This catches Emojis (🚀), Bullets (• - *), Arrows (->), etc.
+            if (!/^[\w\s"']/.test(trimmed)) {
+                if (!inList) { html += '<ul>'; inList = true; }
+                let content = trimmed.replace(/^[-•]\s*/, '');
+                content = content.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+                html += `<li>${content}</li>`;
+                return;
+            }
+
+            // Close list if open for regular paragraphs
+            if (inList) { html += '</ul>'; inList = false; }
+
+            // Regular Paragraph - Apply Markdown Bold
+            let para = trimmed.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+            html += `<p>${para}</p>`;
+        });
+
+        if (inList) html += '</ul>';
+        return html;
+    }
 }
 
 function loadEpisodes() {
@@ -349,12 +362,12 @@ function formatDescription(text) {
             return;
         }
 
-        // HEURISTIC: If we passed timestamps, and we haven't injected the header yet, 
-        // and this is a long paragraph (likely the summary), inject the header now.
-        if (foundTimestamps && !injectedExtendedHeader && trimmed.length > 80 && !/^[-•]/.test(trimmed)) {
+        // SIMPLIFIED LOGIC: If we found timestamps and haven't injected yet, 
+        // inject it immediately before the next content block.
+        if (foundTimestamps && !injectedExtendedHeader) {
             if (inList) { html += '</ul>'; inList = false; }
             html += `<h4>Extended description</h4>`;
-            injectedExtendedHeader = true; // Only do it once
+            injectedExtendedHeader = true;
         }
 
         // Detect Lists
