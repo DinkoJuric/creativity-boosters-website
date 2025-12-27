@@ -679,6 +679,7 @@ img {
 
 .modal-meta {
     color: var(--primary);
+    margin-bottom: 0.5rem;
 }
 
 .modal-desc {
@@ -700,8 +701,7 @@ img {
        - larger (e.g. 4rem) = more space
        - smaller (e.g. 1rem) = less space
     */
-    margin-top: 3.5rem;
-    margin-top: 3.5rem;
+    margin-top: 2.5rem;
     margin-bottom: 1rem;
 }
 
@@ -725,6 +725,12 @@ img {
 
 .modal-desc a {
     color: var(--primary);
+}
+
+/* Modal Button Spacing */
+.modal-container .btn-primary {
+    margin-top: 3rem;
+    /* Increase this to move button down */
 }
 
 .modal-close {
@@ -765,7 +771,7 @@ img {
 
 /* Fallback spacing for the "Red Line" gap */
 p:not(.emoji-list-item)+.emoji-list-item {
-    margin-top: 2.5rem !important;
+    margin-top: 1.5rem !important;
 }
 
 .emoji-list-item {
