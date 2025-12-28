@@ -803,10 +803,10 @@ p:not(.emoji-list-item)+.emoji-list-item {
         -webkit-backdrop-filter: blur(12px);
     }
 
-    .navbar.scrolled {
-        background: rgba(11, 13, 25, 0.85);
-        /* More transparency for mobile */
-    }
+    /* .navbar.scrolled {
+        /* background: rgba(11, 13, 25, 0.85); */
+    /* More transparency for mobile */
+    /*} */
 }
 
 /* --- NEW FEATURES --- */
