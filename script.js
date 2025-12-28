@@ -138,7 +138,6 @@ const CB = {
                             top: '100%',
                             left: '0',
                             width: '100%',
-                            background: 'var(--bg-color)',
                             padding: '1rem',
                             boxShadow: 'var(--shadow-md)'
                         });
@@ -175,7 +174,7 @@ const CB = {
             }, { threshold: 0.1 });
 
             document.querySelectorAll('.fade-in-up').forEach(el => observer.observe(el));
-            
+
             // New Generic Fade Section Observer
             const sectionObserver = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
@@ -186,7 +185,7 @@ const CB = {
             }, { threshold: 0.1 });
 
             document.querySelectorAll('.fade-in-section').forEach(el => sectionObserver.observe(el));
-            
+
             // Navbar Scroll Effect
             const navbar = document.querySelector('.navbar');
             if (navbar) {
@@ -260,18 +259,18 @@ const CB = {
                 }
             });
         },
-        
+
         // Open by ID (used for Bento Grid)
         openById(id) {
-             const data = typeof PODCAST_DATA !== 'undefined' ? PODCAST_DATA : window.PODCAST_DATA;
-             if (!data || !data.episodes) return;
-             
-             const episode = data.episodes.find(ep => ep.id === id);
-             if (episode) {
-                 this.open(episode);
-             } else {
-                 console.warn("Episode not found:", id);
-             }
+            const data = typeof PODCAST_DATA !== 'undefined' ? PODCAST_DATA : window.PODCAST_DATA;
+            if (!data || !data.episodes) return;
+
+            const episode = data.episodes.find(ep => ep.id === id);
+            if (episode) {
+                this.open(episode);
+            } else {
+                console.warn("Episode not found:", id);
+            }
         }
     },
 

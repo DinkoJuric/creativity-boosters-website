@@ -796,7 +796,8 @@ p:not(.emoji-list-item)+.emoji-list-item {
     }
 
     .nav-links {
-        background: rgba(11, 13, 25, 0.95);
+        background: rgba(11, 13, 25, 0.85);
+        /* Matched to navbar opacity */
         border-bottom: 2px solid var(--primary);
         backdrop-filter: blur(12px);
         -webkit-backdrop-filter: blur(12px);
