@@ -331,6 +331,7 @@ img {
     transition: var(--transition);
     max-height: 500px;
     object-fit: cover;
+    object-position: top center;
     border: 1px solid var(--border-subtle);
 }
 
@@ -795,8 +796,15 @@ p:not(.emoji-list-item)+.emoji-list-item {
     }
 
     .nav-links {
-        background: var(--bg-surface);
+        background: rgba(11, 13, 25, 0.95);
         border-bottom: 2px solid var(--primary);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+    }
+
+    .navbar.scrolled {
+        background: rgba(11, 13, 25, 0.85);
+        /* More transparency for mobile */
     }
 }
 
@@ -817,8 +825,10 @@ p:not(.emoji-list-item)+.emoji-list-item {
 
 /* 2. Bento Grid Layout */
 .bento-section {
-    background: #000; /* Deep black as per inspiration */
-    /* border-top: 1px solid var(--border-subtle); */ /* Optional separator */
+    background: #000;
+    /* Deep black as per inspiration */
+    /* border-top: 1px solid var(--border-subtle); */
+    /* Optional separator */
 }
 
 .bento-grid {
@@ -831,14 +841,15 @@ p:not(.emoji-list-item)+.emoji-list-item {
 @media (min-width: 768px) {
     .bento-grid {
         grid-template-columns: repeat(3, 1fr);
-        grid-auto-rows: 350px; /* Fixed height for bento rows */
+        grid-auto-rows: 350px;
+        /* Fixed height for bento rows */
     }
 
     /* Span utilities */
     .col-span-2 {
         grid-column: span 2;
     }
-    
+
     .row-span-2 {
         grid-row: span 2;
     }
@@ -847,7 +858,8 @@ p:not(.emoji-list-item)+.emoji-list-item {
 .bento-card {
     background: var(--bg-surface);
     border: 1px solid var(--border-subtle);
-    border-radius: 20px; /* Larger radius for bento feel */
+    border-radius: 20px;
+    /* Larger radius for bento feel */
     padding: 2.5rem;
     position: relative;
     overflow: hidden;
@@ -884,8 +896,10 @@ p:not(.emoji-list-item)+.emoji-list-item {
     position: absolute;
     top: -10px;
     right: -10px;
-    font-size: 15rem; /* Massive icon */
-    opacity: 0.03; /* Very subtle */
+    font-size: 15rem;
+    /* Massive icon */
+    opacity: 0.03;
+    /* Very subtle */
     color: var(--primary);
     pointer-events: none;
     transition: opacity 0.5s ease;
