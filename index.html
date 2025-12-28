@@ -23,7 +23,7 @@
     <nav class="navbar">
         <div class="container nav-content">
             <a href="#" class="logo">
-                <img src="assets/CB_Logo_Dark.png" alt="Creativity Boosters" style="height: 48px;">
+                <img src="assets/CB_Logo_Dark.png" alt="Creativity Boosters">
             </a>
             <div class="nav-links">
                 <a href="#about">About</a>
@@ -43,11 +43,11 @@
     <!-- Hero Section -->
     <header class="hero">
         <div class="container hero-content">
-            <div class="hero-text fade-in-up">
+            <div class="hero-text fade-in-section">
                 <h1>Decode Innovation.<br>Master Creativity.<br>Lead the Market.</h1>
                 <p>Deep dives, expert interviews, and actionable frameworks.</p>
             </div>
-            <div class="hero-image fade-in-up" style="animation-delay: 0.2s;">
+            <div class="hero-image fade-in-section" style="transition-delay: 0.2s;">
                 <img src="assets/brand-image.jpg" alt="Creativity Boosters" class="brand-img">
             </div>
         </div>
@@ -75,11 +75,94 @@
         </div>
     </section>
 
+    <!-- Creative Problem Solving (Bento Grid) -->
+    <section id="creative-series" class="bento-section section-padding fade-in-section">
+        <div class="container">
+            <div style="margin-bottom: 3rem;">
+                <span class="section-tag">Essential Series</span>
+                <h2>Creative Problem Solving</h2>
+                <p style="color: var(--text-muted); max-width: 600px; margin-top: 1rem;">
+                    A 4-part journey unpacking concepts for solving problems and delivering solutions like the world's
+                    best innovators.
+                </p>
+            </div>
+
+            <div class="bento-grid">
+                <!-- 1. Problem Clarification (Large, Top Left) -->
+                <article class="bento-card col-span-2" onclick="CB.Modal.openById('3o9lDs6gSaBi4zPPdLHYnv')">
+                    <div class="bento-icon-bg">?</div>
+                    <div class="bento-content">
+                        <div>
+                            <span class="modal-meta" style="font-size: 0.8rem;">Part 1</span>
+                            <h3>Problem Clarification</h3>
+                            <p>Are you solving the wrong problem? One simple question—"Why?"—can save your team months
+                                of wasted effort.</p>
+                        </div>
+                        <div class="bento-action">
+                            Start Here <span>&rarr;</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- 2. Ideation (Vertical, Right Side) -->
+                <article class="bento-card row-span-2" onclick="CB.Modal.openById('3amHZnPlVmUQtLJfcJCOOU')">
+                    <div class="bento-icon-bg" style="font-size: 12rem; right: -20px;">💡</div>
+                    <div class="bento-content">
+                        <div>
+                            <span class="modal-meta" style="font-size: 0.8rem;">Part 2</span>
+                            <h3>Ideation</h3>
+                            <p>Master the art of generating breakthrough solutions. Moving beyond basic brainstorming to
+                                "Kangaroo Thinking".</p>
+                        </div>
+                        <div
+                            style="margin-top: 2rem; flex-grow: 1; opacity: 0.5; border-left: 2px solid var(--primary); padding-left: 1rem;">
+                            <p style="font-size: 0.85rem;">Includes specialized workshop techniques and the SCAMPER
+                                framework.</p>
+                        </div>
+                        <div class="bento-action">
+                            Generate Ideas <span>&rarr;</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- 3. Maturation (Standard, Bottom Left) -->
+                <article class="bento-card" onclick="CB.Modal.openById('14uZykClIUPE8rJ9dc5l2K')">
+                    <div class="bento-icon-bg">🌱</div>
+                    <div class="bento-content">
+                        <div>
+                            <span class="modal-meta" style="font-size: 0.8rem;">Part 3</span>
+                            <h3>Maturation</h3>
+                            <p>Prototyping, testing, and selecting which ideas deserve resources.</p>
+                        </div>
+                        <div class="bento-action">
+                            Refine <span>&rarr;</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- 4. Implementation (Standard, Bottom Center) -->
+                <article class="bento-card" onclick="CB.Modal.openById('36V6DDDV6flIY10zGDwGPn')">
+                    <div class="bento-icon-bg">🚀</div>
+                    <div class="bento-content">
+                        <div>
+                            <span class="modal-meta" style="font-size: 0.8rem;">Part 4</span>
+                            <h3>Implementation</h3>
+                            <p>Change management and traits for turning concepts into reality.</p>
+                        </div>
+                        <div class="bento-action">
+                            Launch <span>&rarr;</span>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
     <!-- About Section -->
     <section id="about" class="about-section section-padding">
         <div class="container">
             <div class="about-grid">
-                <div class="about-content fade-in-up">
+                <div class="about-content fade-in-section">
                     <span class="section-tag">About the Show</span>
                     <h2>Are you tired of brainstorming sessions that go nowhere?</h2>
 
@@ -109,7 +192,7 @@
     <!-- Subscribe Section -->
     <section id="subscribe" class="subscribe-section section-padding">
         <div class="container">
-            <div class="subscribe-card fade-in-up">
+            <div class="subscribe-card fade-in-section">
                 <div class="subscribe-content">
                     <h2>Stay Creative</h2>
                     <p>Join our newsletter for episode summaries, reading lists, and exclusive tools.</p>

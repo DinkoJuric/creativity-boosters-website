@@ -1,0 +1,283 @@
+import React, { useEffect, useRef, useState } from 'react';
+import { Play, ArrowRight, Layers, Mic, Cpu, Zap, BarChart3, Menu, X } from 'lucide-react';
+
+/**
+* Utility Component for Scroll Animations (Fade Up)
+*/
+const FadeIn = ({ children, delay = 0, className = "" }) => {
+const [isVisible, setIsVisible] = useState(false);
+const domRef = useRef();
+
+useEffect(() => {
+const observer = new IntersectionObserver(entries => {
+entries.forEach(entry => setIsVisible(entry.isIntersecting));
+}, { threshold: 0.1 }); // Trigger when 10% visible
+
+const currentElement = domRef.current;
+if (currentElement) observer.observe(currentElement);
+
+return () => {
+if (currentElement) observer.unobserve(currentElement);
+};
+}, []);
+
+return (
+<div ref={domRef} className={`transition-all duration-1000 ease-out transform ${ isVisible ? 'opacity-100 translate-y-0'
+    : 'opacity-0 translate-y-12' } ${className}`} style={{ transitionDelay: `${delay}ms` }}>
+    {children}
+</div>
+);
+};
+
+export default function CreativityBoostersLanding() {
+const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+// Brand Teal from your CSS file
+const brandTeal = "text-[#009688]";
+const bgTeal = "bg-[#009688]";
+
+return (
+<div className="bg-black text-white font-sans selection:bg-[#009688] selection:text-white overflow-x-hidden">
+
+    {/* --- Sticky Glass Nav --- */}
+    <nav
+        className="fixed top-0 w-full z-50 transition-all duration-300 backdrop-blur-xl bg-black/70 border-b border-white/10">
+        <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+            {/* Logo */}
+            <div className="flex items-center gap-2 cursor-pointer">
+                <div className="w-5 h-5 rounded-full bg-white flex items-center justify-center">
+                    <Zap size={12} className="text-black fill-current" />
+                </div>
+                <span className="font-semibold tracking-tight text-lg">Creativity Boosters</span>
+            </div>
+
+            {/* Desktop Links */}
+            <div className="hidden md:flex items-center gap-8 text-sm font-medium text-zinc-400">
+                <a href="#episodes" className="hover:text-white transition-colors">Episodes</a>
+                <a href="#frameworks" className="hover:text-white transition-colors">Frameworks</a>
+                <a href="#masterclass" className="hover:text-white transition-colors">Masterclass</a>
+            </div>
+
+            {/* CTA & Mobile Toggle */}
+            <div className="flex items-center gap-4">
+                <button className={`${bgTeal} hover:brightness-110 text-white px-5 py-2 rounded-full text-xs font-bold
+                    tracking-wide transition-all transform hover:scale-105 hidden md:block`}>
+                    SUBSCRIBE NOW
+                </button>
+                <button className="md:hidden text-white" onClick={()=> setIsMobileMenuOpen(!isMobileMenuOpen)}
+                    >
+                    {isMobileMenuOpen ?
+                    <X /> :
+                    <Menu />}
+                </button>
+            </div>
+        </div>
+
+        {/* Mobile Menu */}
+        {isMobileMenuOpen && (
+        <div
+            className="md:hidden absolute top-16 left-0 w-full bg-black/95 border-b border-white/10 p-6 flex flex-col gap-6 text-center animate-in slide-in-from-top-5">
+            <a href="#episodes" className="text-lg font-medium text-zinc-300">Episodes</a>
+            <a href="#frameworks" className="text-lg font-medium text-zinc-300">Frameworks</a>
+            <button className={`${bgTeal} text-white px-8 py-3 rounded-full text-sm font-bold`}>
+                SUBSCRIBE NOW
+            </button>
+        </div>
+        )}
+    </nav>
+
+    {/* --- Hero Section --- */}
+    <section className="relative h-screen flex flex-col items-center justify-center px-4 pt-20">
+        <FadeIn>
+            <div className="text-center max-w-4xl mx-auto space-y-6">
+                <p className={`${brandTeal} text-sm md:text-base font-bold tracking-[0.2em] uppercase`}>
+                    The Future of Innovation
+                </p>
+                <h1
+                    className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tighter leading-[1.1] md:leading-[1.1]">
+                    Decode Innovation. <br />
+                    <span className="text-zinc-500">Master Creativity.</span>
+                </h1>
+                <div className="flex items-center justify-center gap-4 pt-4">
+                    <p className="text-zinc-400 text-lg md:text-xl max-w-xl leading-relaxed">
+                        Stop letting others steal the spotlight. Build the skill that defines the next generation of
+                        leadership.
+                    </p>
+                </div>
+            </div>
+        </FadeIn>
+
+        {/* Video Placeholder Loop */}
+        <FadeIn delay={300} className="w-full max-w-6xl mt-16 md:mt-24 relative group">
+            <div
+                className="aspect-video w-full rounded-[2rem] overflow-hidden border border-white/10 shadow-2xl shadow-[#009688]/20 bg-zinc-900 relative">
+                {/* Simulated Video UI */}
+                <div
+                    className="absolute inset-0 flex items-center justify-center group-hover:scale-105 transition-transform duration-700 bg-gradient-to-tr from-zinc-900 via-zinc-800 to-zinc-900">
+                    <div className="text-center">
+                        <div
+                            className="w-20 h-20 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center mb-4 mx-auto border border-white/20">
+                            <Play className="fill-white text-white ml-1" size={32} />
+                        </div>
+                        <span className="text-zinc-500 font-mono text-xs tracking-widest uppercase">Watch the
+                            Trailer</span>
+                    </div>
+                </div>
+
+                {/* Overlay Gradient */}
+                <div
+                    className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none">
+                </div>
+
+                <div className="absolute bottom-8 left-8 md:bottom-12 md:left-12">
+                    <p className="text-white font-medium text-lg">Episode 29: China's $500B Bet</p>
+                    <p className="text-zinc-400 text-sm">Streaming Now</p>
+                </div>
+            </div>
+        </FadeIn>
+    </section>
+
+    {/* --- The Problem / Transition --- */}
+    <section className="py-32 bg-zinc-950">
+        <div className="max-w-3xl mx-auto px-6 text-center">
+            <FadeIn>
+                <h2 className="text-3xl md:text-5xl font-semibold tracking-tight leading-tight">
+                    Most people think innovation is luck. <br />
+                    <span className="text-zinc-600">They are wrong.</span>
+                </h2>
+                <p className="mt-8 text-xl text-zinc-400 leading-relaxed">
+                    It is a system. Creativity Boosters bridges the gap between high-level theory and Monday morning
+                    execution. We don't just talk about "thinking outside the box"—we give you the blueprints to build a
+                    better box.
+                </p>
+            </FadeIn>
+        </div>
+    </section>
+
+    {/* --- Bento Grid Features --- */}
+    <section id="frameworks" className="py-24 px-4 bg-black">
+        <div className="max-w-7xl mx-auto">
+            <FadeIn className="mb-16">
+                <h2 className="text-4xl md:text-6xl font-bold tracking-tighter">
+                    Your Toolkit.
+                </h2>
+            </FadeIn>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-[400px]">
+
+                {/* Card 1: Large Span */}
+                <FadeIn delay={100}
+                    className="md:col-span-2 row-span-1 relative group overflow-hidden rounded-[2.5rem] bg-zinc-900 border border-white/5 p-10 flex flex-col justify-between">
+                    <div
+                        className="absolute top-0 right-0 p-10 opacity-20 group-hover:opacity-40 transition-opacity duration-500">
+                        <Layers size={200} className={brandTeal} />
+                    </div>
+                    <div className="relative z-10">
+                        <div className="w-12 h-12 rounded-2xl bg-white/10 flex items-center justify-center mb-6">
+                            <Cpu className="text-white" />
+                        </div>
+                        <h3 className="text-3xl font-bold mb-4">Actionable Frameworks</h3>
+                        <p className="text-zinc-400 max-w-md text-lg">
+                            Generate winning ideas on demand. We deconstruct the strategies used by Amazon, Nvidia, and
+                            the UFC to give you templates you can use instantly.
+                        </p>
+                    </div>
+                    <div className="relative z-10">
+                        <button
+                            className="flex items-center gap-2 text-white font-medium group-hover:translate-x-2 transition-transform">
+                            Explore Models
+                            <ArrowRight size={18} />
+                        </button>
+                    </div>
+                </FadeIn>
+
+                {/* Card 2: Vertical */}
+                <FadeIn delay={200}
+                    className="md:col-span-1 row-span-1 md:row-span-2 relative group overflow-hidden rounded-[2.5rem] bg-gradient-to-b from-zinc-800 to-zinc-900 border border-white/5 p-10 flex flex-col">
+                    <div className="mb-auto">
+                        <div className="w-12 h-12 rounded-2xl bg-[#009688]/20 flex items-center justify-center mb-6">
+                            <Mic className={brandTeal} />
+                        </div>
+                        <h3 className="text-3xl font-bold mb-4">Expert Interviews</h3>
+                        <p className="text-zinc-400 text-sm leading-relaxed mb-6">
+                            Conversations with industry leaders who walk the talk. From neuroscientists to VPs at Novo
+                            Nordisk.
+                        </p>
+                        <div className="space-y-4">
+                            {/* Mini list items simulating episodes */}
+                            {[1,2,3].map((i) => (
+                            <div key={i}
+                                className="flex items-center gap-4 p-3 rounded-xl bg-black/20 border border-white/5 hover:bg-black/40 transition-colors cursor-pointer">
+                                <div
+                                    className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-xs">
+                                    Play</div>
+                                <div className="flex-1 min-w-0">
+                                    <div className="h-2 w-24 bg-zinc-700 rounded mb-2"></div>
+                                    <div className="h-2 w-16 bg-zinc-800 rounded"></div>
+                                </div>
+                            </div>
+                            ))}
+                        </div>
+                    </div>
+                </FadeIn>
+
+                {/* Card 3: Standard */}
+                <FadeIn delay={300}
+                    className="md:col-span-1 relative group overflow-hidden rounded-[2.5rem] bg-zinc-900 border border-white/5 p-10">
+                    <div className="w-12 h-12 rounded-2xl bg-white/10 flex items-center justify-center mb-6">
+                        <BarChart3 className="text-white" />
+                    </div>
+                    <h3 className="text-2xl font-bold mb-3">Applied Theory</h3>
+                    <p className="text-zinc-400 text-sm">
+                        Innovation theory that actually works in corporate settings. No fluff, just results.
+                    </p>
+                    <div
+                        className="mt-8 h-32 w-full bg-gradient-to-t from-[#009688]/20 to-transparent rounded-xl border-b border-[#009688]/50">
+                    </div>
+                </FadeIn>
+
+                {/* Card 4: Standard */}
+                <FadeIn delay={400}
+                    className="md:col-span-1 relative group overflow-hidden rounded-[2.5rem] bg-zinc-900 border border-white/5 p-10">
+                    <div className="w-12 h-12 rounded-2xl bg-white/10 flex items-center justify-center mb-6">
+                        <Zap className="text-white" />
+                    </div>
+                    <h3 className="text-2xl font-bold mb-3">High CQ > High IQ</h3>
+                    <p className="text-zinc-400 text-sm">
+                        Why "smart" teams fail. Learn how to balance logic with the Creativity Coefficient.
+                    </p>
+                </FadeIn>
+            </div>
+        </div>
+    </section>
+
+    {/* --- CTA / Footer --- */}
+    <section className="py-40 px-6 relative overflow-hidden">
+        {/* Background Glow */}
+        <div
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#009688] opacity-10 blur-[120px] rounded-full pointer-events-none">
+        </div>
+
+        <div className="max-w-4xl mx-auto text-center relative z-10">
+            <FadeIn>
+                <h2 className="text-5xl md:text-8xl font-bold tracking-tighter mb-8">
+                    Don't just compete. <br /> Create.
+                </h2>
+                <p className="text-xl text-zinc-400 mb-12 max-w-2xl mx-auto">
+                    Join thousands of listeners decoding innovation for the 8 AM meeting.
+                </p>
+                <button className={`${bgTeal} hover:bg-[#00897b] text-white px-10 py-5 rounded-full text-lg font-bold
+                    tracking-wide transition-all transform hover:scale-105
+                    shadow-[0_0_40px_-10px_rgba(0,150,136,0.5)]`}>
+                    START LISTENING
+                </button>
+            </FadeIn>
+        </div>
+    </section>
+
+    <footer className="py-10 border-t border-white/10 text-center text-zinc-600 text-sm">
+        <p>&copy; 2025 Creativity Boosters. Designed for Innovators.</p>
+    </footer>
+</div>
+);
+}
