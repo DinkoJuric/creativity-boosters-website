@@ -810,8 +810,10 @@ p:not(.emoji-list-item)+.emoji-list-item {
 @media (max-width: 768px) {
     .hero-content {
         flex-direction: column-reverse;
-        gap: 2rem;
-        padding-top: 2rem;
+        gap: 3rem;
+        /* Increase from 2rem to prevent overlap */
+        padding-top: 4rem;
+        /* Give more space */
     }
 
     .hero-text {
@@ -1108,10 +1110,12 @@ p:not(.emoji-list-item)+.emoji-list-item {
 /* Mobile Responsiveness */
 @media (max-width: 768px) {
     .orbit-container {
-        height: 500px;
-        /* Restore height for 3D */
+        height: 600px;
+        /* Slight increase to ensure 3D cards fit vertical space */
         perspective: 1000px;
         /* Restore perspective */
+        margin-top: 6rem;
+        /* Push down to prevent covering 'Latest Episodes' header */
     }
 
     .orbit-track {
@@ -1128,7 +1132,7 @@ p:not(.emoji-list-item)+.emoji-list-item {
     .orbit-item {
         position: absolute;
         /* Restore absolute positioning */
-        width: 92%;
+        width: 85%;
         /* Wider width for mobile as requested */
         min-width: auto;
         scroll-snap-align: none;
