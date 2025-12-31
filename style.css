@@ -1028,40 +1028,21 @@ p:not(.emoji-list-item)+.emoji-list-item {
     flex-direction: column;
 }
 
-/* States */
+/* States - Shared */
 .orbit-item.center {
     z-index: 10;
-    transform: translateX(0) scale(1) rotateY(0deg);
     opacity: 1;
     box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
     border-color: var(--primary);
 }
 
-.orbit-item.left {
+.orbit-item.prev, .orbit-item.next {
     z-index: 5;
-    transform: translateX(-100%) scale(0.75) rotateY(15deg);
-    /* Tighter overlap, smaller scale */
     opacity: 0.6;
-    filter: blur(1px);
 }
 
-.orbit-item.right {
-    z-index: 5;
-    transform: translateX(100%) scale(0.75) rotateY(-15deg);
-    opacity: 0.6;
-    filter: blur(1px);
-}
-
-.orbit-item.far-left {
+.orbit-item.far-prev, .orbit-item.far-next {
     z-index: 1;
-    transform: translateX(-150%) scale(0.6);
-    opacity: 0;
-    pointer-events: none;
-}
-
-.orbit-item.far-right {
-    z-index: 1;
-    transform: translateX(150%) scale(0.6);
     opacity: 0;
     pointer-events: none;
 }
@@ -1107,54 +1088,84 @@ p:not(.emoji-list-item)+.emoji-list-item {
     transform: scale(1.1);
 }
 
-/* Mobile Responsiveness */
+/* DESKTOP STYLES (Horizontal) */
+@media (min-width: 769px) {
+    .orbit-item.center {
+        transform: translateX(0) scale(1) rotateY(0deg);
+    }
+
+    .orbit-item.prev {
+        transform: translateX(-100%) scale(0.75) rotateY(15deg);
+        filter: blur(1px);
+    }
+
+    .orbit-item.next {
+        transform: translateX(100%) scale(0.75) rotateY(-15deg);
+        filter: blur(1px);
+    }
+
+    .orbit-item.far-prev {
+        transform: translateX(-150%) scale(0.6);
+    }
+
+    .orbit-item.far-next {
+        transform: translateX(150%) scale(0.6);
+    }
+}
+
+/* MOBILE STYLES (Vertical) */
 @media (max-width: 768px) {
     .orbit-container {
-        height: 500px;
-        /* Reduced to 500px as requested */
+        height: 500px; /* Fixed height as requested */
         perspective: 1000px;
-        /* Restore perspective */
-        margin-top: 6rem;
-        /* Push down to prevent covering 'Latest Episodes' header */
+        margin-top: 3rem;
     }
 
     .orbit-track {
-        /* Restore 3D center alignment */
         display: flex;
         justify-content: center;
         align-items: center;
-        overflow-x: visible;
-        /* Allow 3D overflow */
+        overflow: visible;
         padding: 0;
         width: 100%;
     }
 
     .orbit-item {
         position: absolute;
-        /* Restore absolute positioning */
-        width: 85%;
-        /* Back to 85% as requested */
+        width: 85%; /* Leave margin for scroll trap escape */
+        max-width: 340px;
         min-width: auto;
-        scroll-snap-align: none;
-        margin: 0;
-        left: auto;
-        right: auto;
-        /* Transitions will handle the rest */
+        margin: 0 auto;
+        left: 0;
+        right: 0;
     }
 
-    /* Mobile-specific spacing */
-    .orbit-item.left {
-        transform: translateX(-110%) scale(0.8) rotateY(10deg);
-        /* Push further out */
+    /* Vertical Stacking Transforms */
+    .orbit-item.center {
+        transform: translateY(0) scale(1);
     }
 
-    .orbit-item.right {
-        transform: translateX(110%) scale(0.8) rotateY(-10deg);
-        /* Push further out */
+    .orbit-item.prev {
+        /* Stack above (visually "previous" in time/list, physically above) */
+        transform: translateY(-120px) scale(0.9);
+        filter: brightness(0.7);
+    }
+
+    .orbit-item.next {
+        /* Stack below */
+        transform: translateY(120px) scale(0.9);
+        filter: brightness(0.7);
+    }
+
+    .orbit-item.far-prev {
+        transform: translateY(-200px) scale(0.8);
+    }
+
+    .orbit-item.far-next {
+        transform: translateY(200px) scale(0.8);
     }
 
     .orbit-controls {
         display: none;
-        /* Still hide buttons, swipe is better */
     }
 }
