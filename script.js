@@ -469,10 +469,29 @@ const CB = {
             this.track.addEventListener('touchmove', e => {
                 const currentX = e.touches[0].clientX;
                 const currentY = e.touches[0].clientY;
+                const diffY = currentY - startY;
+
+                // Only prevent scroll if we are definitely swiping vertically on the carousel
+                // and the user is NOT hitting the side margins (which are transparent track)
+                // However, detecting "margins" inside touch event on the track is tricky without element checking.
+                // Best bet: If the target is an orbit-item or inside it, we claim it.
+
+                const isItem = e.target.closest('.orbit-item');
+
+                if (isItem && Math.abs(currentY - startY) > 5) {
+                    // Prevent page scroll if dragging vertically on an item
+                    // But we must allow Horizontal scrolling if that's the intention?
+                    // No, usually you want to lock direction.
+                    // For vertical orbit: prevent default vertical scroll.
+                    if (window.innerWidth <= 768) {
+                         if (e.cancelable) e.preventDefault();
+                    }
+                }
+
                 if (Math.abs(currentX - startX) > 10 || Math.abs(currentY - startY) > 10) {
                     this.isDragging = true;
                 }
-            }, { passive: true });
+            }, { passive: false }); // Important: passive: false to allow preventDefault
 
             this.track.addEventListener('touchend', e => {
                 const endX = e.changedTouches[0].clientX;

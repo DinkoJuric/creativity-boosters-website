@@ -419,31 +419,39 @@ img {
 }
 
 .episode-meta {
-    font-size: 0.8rem;
-    color: var(--primary);
-    margin-bottom: 1rem;
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 1.25rem;
     display: flex;
-    justify-content: space-between;
+    gap: 0.5rem;
     align-items: center;
-    font-family: var(--font-heading);
+    font-family: var(--font-body); /* Switch to body font for cleaner look */
+    font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 1.5px;
 }
 
 .episode-date {
-    background: rgba(0, 150, 136, 0.1);
-    padding: 4px 10px;
-    border-radius: 4px;
+    /* Removed background for cleaner look */
+    padding: 0;
+}
+
+.episode-duration::before {
+    content: '•';
+    margin-right: 0.5rem;
+    opacity: 0.5;
 }
 
 .episode-duration {
-    color: var(--text-muted);
+    color: rgba(255, 255, 255, 0.4);
 }
 
 .episode-title {
-    font-size: 1.5rem;
+    font-size: 1.75rem;
+    font-weight: 700;
     margin-bottom: 1.5rem;
-    line-height: 1.3;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
     color: var(--text-main);
     display: -webkit-box;
     -webkit-line-clamp: 2;
@@ -453,22 +461,23 @@ img {
 }
 
 .episode-card:hover .episode-title a {
-    color: var(--primary);
+    color: var(--text-main); /* Keep white on hover */
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
 }
 
 .read-more-btn {
     background: none;
     border: none;
-    color: var(--accent);
-    font-family: var(--font-heading);
-    text-transform: uppercase;
-    font-size: 0.8rem;
-    letter-spacing: 1px;
+    color: rgba(255, 255, 255, 0.5);
+    font-family: var(--font-body);
+    font-weight: 500;
+    font-size: 0.85rem;
     cursor: pointer;
-    padding: 0;
-    margin-bottom: 1.5rem;
-    text-align: left;
-    display: inline-block;
+    padding: 1rem 0;
+    margin-top: auto;
+    width: 100%;
+    text-align: center;
+    display: block;
     transition: var(--transition);
 }
 
@@ -479,50 +488,66 @@ img {
 /* Takeaways in Card */
 .takeaways-preview {
     margin-bottom: 2rem;
-    flex-grow: 1;
-    border-left: 2px solid var(--border-subtle);
-    padding-left: 1rem;
+    flex-grow: 0;
+    border-left: none; /* Removed border */
+    padding-left: 0;
+}
+
+.takeaways-list {
+    /* Explicitly set font stack to support Emojis on Apple devices */
+    font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", var(--font-body), sans-serif;
 }
 
 .takeaways-list li {
-    font-size: 0.95rem;
+    font-size: 1rem;
     margin-bottom: 0.8rem;
     line-height: 1.5;
-    padding-left: 0;
-    color: var(--text-muted);
+    color: rgba(255, 255, 255, 0.8);
+    /* Restore natural text flow */
+    display: block;
+    /* Hanging indent for emoji bullets */
+    padding-left: 1.5rem;
+    text-indent: -1.5rem;
 }
 
 .takeaways-list li::before {
     display: none;
-    /* Removing the checkmark for cleaner look, or change color */
 }
 
 /* Episode Footer */
 .episode-footer {
-    border-top: 1px solid var(--border-subtle);
+    border-top: none;
     padding: 1.5rem 2.5rem;
-    background: rgba(0, 0, 0, 0.2);
-    margin-top: auto;
+    background: transparent;
+    margin-top: 0;
 }
 
 .listen-link {
-    font-weight: 700;
-    color: var(--text-main);
-    font-size: 0.9rem;
+    background: var(--text-main); /* White button */
+    color: var(--bg-body); /* Dark text */
+    width: 100%;
+    padding: 1rem;
+    border-radius: 50px; /* Pill shape */
+    font-weight: 600;
+    font-size: 1rem;
     display: flex;
+    justify-content: center;
     align-items: center;
-    gap: 0.8rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
+    gap: 0.5rem;
+    text-transform: none; /* Sentence case or Title case */
+    letter-spacing: 0;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .listen-link span {
-    color: var(--primary);
-    font-size: 1.2rem;
+    color: var(--primary); /* Keep brand color for icon */
+    font-size: 1rem;
 }
 
 .listen-link:hover {
-    color: var(--primary);
+    transform: scale(1.02);
+    box-shadow: 0 5px 15px rgba(255, 255, 255, 0.2);
+    color: var(--bg-body);
 }
 
 /* About Section */
@@ -1015,25 +1040,34 @@ p:not(.emoji-list-item)+.emoji-list-item {
 .orbit-item {
     position: absolute;
     width: 400px;
-    /* Wider card to fit content better vertically */
     height: auto;
-    /* Removed max-height constraint to allow content to flow */
-    transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+    transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1); /* Apple-like "easeOutExpo" feel */
     cursor: pointer;
-    background: var(--bg-surface);
-    border-radius: var(--radius-sm);
-    box-shadow: var(--shadow-md);
-    border: 1px solid var(--border-subtle);
+
+    /* Glassmorphism / Apple Style */
+    background: rgba(30, 32, 45, 0.75);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border-radius: 24px; /* Super-ellipse feel */
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow:
+        0 4px 6px rgba(0, 0, 0, 0.05),
+        0 12px 24px rgba(0, 0, 0, 0.1);
+
     display: flex;
     flex-direction: column;
+    overflow: hidden;
 }
 
 /* States - Shared */
 .orbit-item.center {
     z-index: 10;
     opacity: 1;
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
-    border-color: var(--primary);
+    /* Deeper shadow for active card to indicate depth */
+    box-shadow:
+        0 20px 40px rgba(0, 0, 0, 0.4),
+        0 0 0 1px rgba(255, 255, 255, 0.15); /* Subtle inner glow via border overlap */
+    border-color: rgba(255, 255, 255, 0.2);
 }
 
 .orbit-item.prev, .orbit-item.next {
