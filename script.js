@@ -274,24 +274,173 @@ const CB = {
         }
     },
 
+    // --- ORBIT LOGIC ---
+    Orbit: {
+        activeIndex: 0,
+        items: [],
+        elements: [],
+
+        init(episodes) {
+            this.container = document.getElementById('orbit-container');
+            this.track = document.getElementById('orbit-track');
+            this.prevBtn = document.getElementById('orbit-prev');
+            this.nextBtn = document.getElementById('orbit-next');
+
+            if (!this.track) return;
+
+            // Take top 5 for the orbit (Center + 2 neighbors + 2 hidden buffers)
+            // Even if fewer, it works, but 5 is ideal for this visual
+            this.episodes = episodes.slice(0, 5);
+
+            this.renderCards();
+            this.updateClasses();
+            this.bindEvents();
+        },
+
+        renderCards() {
+            this.track.innerHTML = '';
+            this.elements = this.episodes.map((ep, i) => {
+                // Reuse existing card creation but modify for Orbit
+                const card = CB.Podcast.createCard(ep, i);
+
+                // Swap classes
+                card.classList.remove('episode-card', 'fade-in-up');
+                card.classList.add('orbit-item');
+
+                // RESET INLINE STYLES from createCard (opacity: 0)
+                card.style.opacity = '';
+                card.style.transform = '';
+
+                // Click to navigate
+                card.addEventListener('click', () => {
+                    // If clicking a side card, rotate to it. 
+                    // If clicking center, maybe open modal? 
+                    // Current behavior: createCard adds modal trigger to title/button.
+                    // We need to ensure clicking the *card body* rotates, 
+                    // but clicking the *button* opens modal.
+                    // Actually, let's keep it simple: Click anytime rotates to it, 
+                    // UNLESS it's already center, then inner clicks work.
+
+                    if (this.activeIndex !== i) {
+                        this.goTo(i);
+                    }
+                });
+
+                this.track.appendChild(card);
+                return card;
+            });
+        },
+
+        goTo(index) {
+            this.activeIndex = index;
+            this.updateClasses();
+        },
+
+        next() {
+            this.activeIndex = (this.activeIndex + 1) % this.elements.length;
+            this.updateClasses();
+        },
+
+        prev() {
+            this.activeIndex = (this.activeIndex - 1 + this.elements.length) % this.elements.length;
+            this.updateClasses();
+        },
+
+        updateClasses() {
+            const count = this.elements.length;
+
+            this.elements.forEach((item, i) => {
+                // Remove state classes, keep base
+                item.className = 'orbit-item';
+
+                // Calculate distance wrapped around
+                // distance: 0 (center), 1 (right), -1 (left), etc.
+                // We need a stable modulo logic for distance
+
+                let diff = (i - this.activeIndex) % count;
+                if (diff < 0) diff += count; // normalize to 0..count-1
+
+                // Map standard diffs: 
+                // 0 -> Center
+                // 1 -> Right
+                // count-1 -> Left (equivalent to -1)
+                // 2 -> Far Right
+                // count-2 -> Far Left (equivalent to -2)
+
+                if (diff === 0) {
+                    item.classList.add('center');
+                    // Enable pointer events for inner triggers only when centered
+                    item.style.pointerEvents = 'auto';
+                } else if (diff === 1) {
+                    item.classList.add('right');
+                } else if (diff === count - 1) {
+                    item.classList.add('left');
+                } else if (diff === 2) {
+                    item.classList.add('far-right');
+                } else if (diff === count - 2) {
+                    item.classList.add('far-left');
+                } else {
+                    item.style.opacity = '0';
+                    item.style.pointerEvents = 'none';
+                }
+            });
+        },
+
+        bindEvents() {
+            if (this.prevBtn) this.prevBtn.addEventListener('click', () => this.prev());
+            if (this.nextBtn) this.nextBtn.addEventListener('click', () => this.next());
+
+            // Keyboard
+            document.addEventListener('keydown', (e) => {
+                // Only if element is in view to avoid hijacking global scroll? 
+                // For now, simple binding.
+                if (e.key === 'ArrowLeft') this.prev();
+                if (e.key === 'ArrowRight') this.next();
+            });
+
+            // Swipe
+            let startX = 0;
+            this.track.addEventListener('touchstart', e => startX = e.touches[0].clientX, { passive: true });
+            this.track.addEventListener('touchend', e => {
+                const endX = e.changedTouches[0].clientX;
+                if (startX - endX > 50) this.next();
+                if (endX - startX > 50) this.prev();
+            });
+        }
+    },
+
     // --- PODCAST DATA ---
     Podcast: {
         init() {
+            const data = this.getData();
+            if (!data || !data.episodes) {
+                console.error("No podcast data found");
+                return;
+            }
+
+            // 1. Try Orbit (Landing Page)
+            const orbitContainer = document.getElementById('orbit-container');
+            if (orbitContainer) {
+                CB.Orbit.init(data.episodes);
+                return;
+            }
+
+            // 2. Try Grid (Archive Page)
             this.grid = document.getElementById('episodes-grid');
-            if (this.grid) this.loadEpisodes();
+            if (this.grid) {
+                this.loadGrid(data.episodes);
+            }
         },
 
-        loadEpisodes() {
-            try {
-                // Access global data
-                const data = typeof PODCAST_DATA !== 'undefined' ? PODCAST_DATA : window.PODCAST_DATA;
-                if (!data || !data.episodes) throw new Error('Episode data not found');
+        getData() {
+            return typeof PODCAST_DATA !== 'undefined' ? PODCAST_DATA : window.PODCAST_DATA;
+        },
 
-                const episodes = data.episodes;
+        loadGrid(episodes) {
+            try {
+                this.grid.innerHTML = '';
                 const isArchive = document.body.classList.contains('page-episodes');
                 const limit = isArchive ? episodes.length : 3;
-
-                this.grid.innerHTML = '';
 
                 episodes.slice(0, limit).forEach((episode, index) => {
                     const card = this.createCard(episode, index);
@@ -359,6 +508,7 @@ const CB = {
             article.querySelectorAll('.modal-trigger').forEach(t => {
                 t.addEventListener('click', (e) => {
                     e.preventDefault();
+                    e.stopPropagation(); // Prevent orbit rotation click
                     CB.Modal.open(episode);
                 });
             });

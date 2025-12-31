@@ -935,3 +935,175 @@ p:not(.emoji-list-item)+.emoji-list-item {
 .bento-action:hover {
     color: var(--text-main);
 }
+
+/* --- ORBIT CAROUSEL --- */
+.orbit-container {
+    position: relative;
+    width: 100%;
+    max-width: 1200px;
+    /* Increased to fit wider cards */
+    margin: 3rem auto 0;
+    perspective: 1000px;
+    height: 550px;
+    /* Reduced height back to 550px (since cards will be shorter) */
+    padding: 2rem 0;
+    /* Add padding to prevent shadow clipping */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    /* Hide cards flying out too far */
+}
+
+.orbit-track {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform-style: preserve-3d;
+}
+
+.orbit-item {
+    position: absolute;
+    width: 400px;
+    /* Wider card to fit content better vertically */
+    height: auto;
+    /* Removed max-height constraint to allow content to flow */
+    transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+    cursor: pointer;
+    background: var(--bg-surface);
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--border-subtle);
+    display: flex;
+    flex-direction: column;
+}
+
+/* States */
+.orbit-item.center {
+    z-index: 10;
+    transform: translateX(0) scale(1) rotateY(0deg);
+    opacity: 1;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    border-color: var(--primary);
+}
+
+.orbit-item.left {
+    z-index: 5;
+    transform: translateX(-80%) scale(0.75) rotateY(15deg);
+    /* Tighter overlap, smaller scale */
+    opacity: 0.6;
+    filter: blur(1px);
+}
+
+.orbit-item.right {
+    z-index: 5;
+    transform: translateX(80%) scale(0.75) rotateY(-15deg);
+    opacity: 0.6;
+    filter: blur(1px);
+}
+
+.orbit-item.far-left {
+    z-index: 1;
+    transform: translateX(-150%) scale(0.6);
+    opacity: 0;
+    pointer-events: none;
+}
+
+.orbit-item.far-right {
+    z-index: 1;
+    transform: translateX(150%) scale(0.6);
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Controls */
+.orbit-controls {
+    position: absolute;
+    bottom: 20px;
+    /* Keep it at the bottom */
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    gap: 28rem;
+    /* Customized for 400px center card */
+    padding: 1rem;
+    z-index: 20;
+    pointer-events: none;
+}
+
+.orbit-btn {
+    pointer-events: auto;
+    background: rgba(11, 13, 25, 0.8);
+    /* Darker semi-transparent background */
+    border: 1px solid var(--primary);
+    color: var(--primary);
+    width: 50px;
+    /* Slightly larger */
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: var(--transition);
+    font-size: 1.5rem;
+    backdrop-filter: blur(4px);
+}
+
+.orbit-btn:hover {
+    background: var(--primary);
+    color: var(--text-inverse);
+    transform: scale(1.1);
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .orbit-container {
+        height: auto;
+        min-height: 450px;
+        perspective: none;
+        /* Flatten for mobile */
+    }
+
+    .orbit-track {
+        display: flex;
+        overflow-x: auto;
+        justify-content: flex-start;
+        scroll-snap-type: x mandatory;
+        padding: 2rem 1rem;
+        gap: 1rem;
+        width: 100%;
+        /* Hide 3D positioning */
+    }
+
+    .orbit-item {
+        position: relative;
+        /* Normal flow */
+        min-width: 85%;
+        /* Almost full width */
+        width: 85%;
+        scroll-snap-align: center;
+        transform: none !important;
+        opacity: 1 !important;
+        filter: none !important;
+        margin: 0;
+        left: auto !important;
+        right: auto !important;
+    }
+
+    .orbit-controls {
+        display: none;
+        /* Hide buttons on mobile, natural scroll is better */
+    }
+
+    /* Ensure only center card logic doesn't mess up mobile layout */
+    .orbit-item.center,
+    .orbit-item.left,
+    .orbit-item.right {
+        transform: none;
+    }
+}

@@ -58,20 +58,24 @@
         <div class="container">
             <div style="display: flex; justify-content: space-between; align-items: end; margin-bottom: 3rem;">
                 <h2>Latest Episodes</h2>
-                <a href="episodes.html" class="btn btn-secondary desktop-only">View Full Archive &rarr;</a>
+                <a href="episodes.html" class="btn btn-secondary desktop-only">View All Episodes &rarr;</a>
             </div>
 
-            <div id="episodes-grid" class="episodes-grid">
-                <!-- Episodes will be populated here by script.js -->
-                <div class="loading-state">
-                    <div class="spinner"></div>
-                    <p>Loading latest insights...</p>
+            <div id="orbit-container" class="orbit-container">
+                <div id="orbit-track" class="orbit-track">
+                    <!-- Episodes will be populated here by script.js -->
+                    <div class="loading-state">
+                        <div class="spinner"></div>
+                        <p>Loading latest insights...</p>
+                    </div>
+                </div>
+                <div class="orbit-controls">
+                    <button id="orbit-prev" type="button" class="orbit-btn"
+                        aria-label="Previous Episode">&larr;</button>
+                    <button id="orbit-next" type="button" class="orbit-btn" aria-label="Next Episode">&rarr;</button>
                 </div>
             </div>
-
-            <div style="text-align: center; margin-top: 3rem;" class="mobile-only">
-                <a href="episodes.html" class="btn btn-secondary">View Full Archive</a>
-            </div>
+        </div>
         </div>
     </section>
 
