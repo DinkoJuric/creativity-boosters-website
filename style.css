@@ -812,7 +812,7 @@ p:not(.emoji-list-item)+.emoji-list-item {
         flex-direction: column-reverse;
         gap: 3rem;
         /* Increase from 2rem to prevent overlap */
-        padding-top: 4rem;
+        padding-top: 6rem;
         /* Give more space */
     }
 
@@ -826,8 +826,8 @@ p:not(.emoji-list-item)+.emoji-list-item {
     }
 
     .hero-image {
-        width: 100%;
-        margin-bottom: 1rem;
+        width: 90%;
+        margin-bottom: 2rem;
         /* Ensure image is behind text if they overlap via negative margin or transform */
         z-index: 1;
     }

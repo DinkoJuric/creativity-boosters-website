@@ -247,7 +247,7 @@ const CB = {
                 // End: Opacity 1, Original Position
 
                 heroText.style.opacity = progress;
-                heroText.style.transform = `translateX(${ -20 + (progress * 20) }px)`;
+                heroText.style.transform = `translateX(${-20 + (progress * 20)}px)`;
             };
 
             window.addEventListener('scroll', () => {
@@ -371,14 +371,13 @@ const CB = {
                 card.style.transform = '';
 
                 // Click to navigate
-                card.addEventListener('click', () => {
-                    // If clicking a side card, rotate to it. 
-                    // If clicking center, maybe open modal? 
-                    // Current behavior: createCard adds modal trigger to title/button.
-                    // We need to ensure clicking the *card body* rotates, 
-                    // but clicking the *button* opens modal.
-                    // Actually, let's keep it simple: Click anytime rotates to it, 
-                    // UNLESS it's already center, then inner clicks work.
+                card.addEventListener('click', (e) => {
+                    // Prevent click if we were dragging/swiping
+                    if (this.isDragging) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        return;
+                    }
 
                     if (this.activeIndex !== i) {
                         this.goTo(i);
@@ -464,6 +463,15 @@ const CB = {
             this.track.addEventListener('touchstart', e => {
                 startX = e.touches[0].clientX;
                 startY = e.touches[0].clientY;
+                this.isDragging = false;
+            }, { passive: true });
+
+            this.track.addEventListener('touchmove', e => {
+                const currentX = e.touches[0].clientX;
+                const currentY = e.touches[0].clientY;
+                if (Math.abs(currentX - startX) > 10 || Math.abs(currentY - startY) > 10) {
+                    this.isDragging = true;
+                }
             }, { passive: true });
 
             this.track.addEventListener('touchend', e => {
