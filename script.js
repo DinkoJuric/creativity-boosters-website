@@ -412,7 +412,7 @@ const CB = {
                 item.className = 'orbit-item';
 
                 // Calculate distance wrapped around
-                // distance: 0 (center), 1 (right), -1 (left), etc.
+                // distance: 0 (center), 1 (next), -1 (prev), etc.
                 // We need a stable modulo logic for distance
 
                 let diff = (i - this.activeIndex) % count;
@@ -420,23 +420,23 @@ const CB = {
 
                 // Map standard diffs: 
                 // 0 -> Center
-                // 1 -> Right
-                // count-1 -> Left (equivalent to -1)
-                // 2 -> Far Right
-                // count-2 -> Far Left (equivalent to -2)
+                // 1 -> Next
+                // count-1 -> Prev (equivalent to -1)
+                // 2 -> Far Next
+                // count-2 -> Far Prev (equivalent to -2)
 
                 if (diff === 0) {
                     item.classList.add('center');
                     // Enable pointer events for inner triggers only when centered
                     item.style.pointerEvents = 'auto';
                 } else if (diff === 1) {
-                    item.classList.add('right');
+                    item.classList.add('next');
                 } else if (diff === count - 1) {
-                    item.classList.add('left');
+                    item.classList.add('prev');
                 } else if (diff === 2) {
-                    item.classList.add('far-right');
+                    item.classList.add('far-next');
                 } else if (diff === count - 2) {
-                    item.classList.add('far-left');
+                    item.classList.add('far-prev');
                 } else {
                     item.style.opacity = '0';
                     item.style.pointerEvents = 'none';
@@ -452,8 +452,8 @@ const CB = {
             document.addEventListener('keydown', (e) => {
                 // Only if element is in view to avoid hijacking global scroll? 
                 // For now, simple binding.
-                if (e.key === 'ArrowLeft') this.prev();
-                if (e.key === 'ArrowRight') this.next();
+                if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') this.prev();
+                if (e.key === 'ArrowRight' || e.key === 'ArrowDown') this.next();
             });
 
             // Swipe
@@ -482,10 +482,21 @@ const CB = {
                 const diffX = startX - endX;
                 const diffY = startY - endY;
 
-                // Only trigger if horizontal swipe is dominant and significant
-                if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 30) {
-                    if (diffX > 0) this.next();
-                    else this.prev();
+                // Responsive Swipe Detection
+                const isMobile = window.innerWidth <= 768;
+
+                if (isMobile) {
+                    // Vertical Swipe for Mobile
+                    if (Math.abs(diffY) > Math.abs(diffX) && Math.abs(diffY) > 30) {
+                        if (diffY > 0) this.next(); // Swipe Up -> Next
+                        else this.prev(); // Swipe Down -> Prev
+                    }
+                } else {
+                    // Horizontal Swipe for Desktop
+                    if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 30) {
+                        if (diffX > 0) this.next(); // Swipe Left -> Next
+                        else this.prev(); // Swipe Right -> Prev
+                    }
                 }
             });
         }
