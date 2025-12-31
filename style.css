@@ -1108,7 +1108,7 @@ p:not(.emoji-list-item)+.emoji-list-item {
 /* Mobile Responsiveness */
 @media (max-width: 768px) {
     .orbit-container {
-        height: 550px;
+        height: 500px;
         /* Restore height for 3D */
         perspective: 1000px;
         /* Restore perspective */
@@ -1128,7 +1128,7 @@ p:not(.emoji-list-item)+.emoji-list-item {
     .orbit-item {
         position: absolute;
         /* Restore absolute positioning */
-        width: 85%;
+        width: 92%;
         /* Wider width for mobile as requested */
         min-width: auto;
         scroll-snap-align: none;
