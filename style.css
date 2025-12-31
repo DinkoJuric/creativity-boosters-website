@@ -354,7 +354,8 @@ img {
     /* Parallax Initial State */
     opacity: 0;
     transform: translateX(-20px);
-    transition: opacity 0.1s ease-out, transform 0.1s ease-out; /* Fast transition for scroll sync */
+    transition: opacity 0.1s ease-out, transform 0.1s ease-out;
+    /* Fast transition for scroll sync */
 }
 
 .hero h1 {
@@ -818,7 +819,8 @@ p:not(.emoji-list-item)+.emoji-list-item {
         text-align: center;
         /* Ensure it can overlap if pushed by JS parallax, or just stack nicely */
         position: relative;
-        z-index: 2; /* Text on top */
+        z-index: 2;
+        /* Text on top */
     }
 
     .hero-image {
@@ -839,7 +841,8 @@ p:not(.emoji-list-item)+.emoji-list-item {
     .nav-links {
         display: none;
         /* Hidden by default, toggled by JS */
-        background: rgba(11, 13, 25, 0.85); /* Restored for dropdown */
+        background: rgba(11, 13, 25, 0.85);
+        /* Restored for dropdown */
         border-bottom: 2px solid var(--primary);
         backdrop-filter: blur(12px);
         -webkit-backdrop-filter: blur(12px);
@@ -993,8 +996,8 @@ p:not(.emoji-list-item)+.emoji-list-item {
     display: flex;
     justify-content: center;
     align-items: center;
-    overflow: hidden;
-    /* Hide cards flying out too far */
+    overflow: visible;
+    /* Allow cards/shadows to extend beyond container */
 }
 
 .orbit-track {
@@ -1034,7 +1037,7 @@ p:not(.emoji-list-item)+.emoji-list-item {
 
 .orbit-item.left {
     z-index: 5;
-    transform: translateX(-80%) scale(0.75) rotateY(15deg);
+    transform: translateX(-100%) scale(0.75) rotateY(15deg);
     /* Tighter overlap, smaller scale */
     opacity: 0.6;
     filter: blur(1px);
@@ -1042,7 +1045,7 @@ p:not(.emoji-list-item)+.emoji-list-item {
 
 .orbit-item.right {
     z-index: 5;
-    transform: translateX(80%) scale(0.75) rotateY(-15deg);
+    transform: translateX(100%) scale(0.75) rotateY(-15deg);
     opacity: 0.6;
     filter: blur(1px);
 }
@@ -1125,14 +1128,25 @@ p:not(.emoji-list-item)+.emoji-list-item {
     .orbit-item {
         position: absolute;
         /* Restore absolute positioning */
-        width: 70%;
-        /* Smaller width for mobile */
+        width: 85%;
+        /* Wider width for mobile as requested */
         min-width: auto;
         scroll-snap-align: none;
         margin: 0;
         left: auto;
         right: auto;
         /* Transitions will handle the rest */
+    }
+
+    /* Mobile-specific spacing */
+    .orbit-item.left {
+        transform: translateX(-110%) scale(0.8) rotateY(10deg);
+        /* Push further out */
+    }
+
+    .orbit-item.right {
+        transform: translateX(110%) scale(0.8) rotateY(-10deg);
+        /* Push further out */
     }
 
     .orbit-controls {
