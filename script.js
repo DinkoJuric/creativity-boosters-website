@@ -197,6 +197,65 @@ const CB = {
                     }
                 });
             }
+
+            // Hero Parallax Setup
+            this.setupHeroParallax();
+        },
+
+        setupHeroParallax() {
+            const heroImage = document.querySelector('.brand-img');
+            const heroText = document.querySelector('.hero-text');
+            const heroSection = document.querySelector('.hero');
+
+            if (!heroImage || !heroText || !heroSection) return;
+
+            // Only run on mobile/small screens if that's the main request?
+            // The user said "On computer it looks good. On phone however it is a mess... desired solution is a parallax scroll".
+            // So we should target mobile specifically or just apply generally but tune for mobile.
+            // Let's apply generally but check window width for tuning if needed.
+
+            const updateParallax = () => {
+                const scrollY = window.scrollY;
+                const windowHeight = window.innerHeight;
+
+                // Max scroll distance to complete the animation (e.g., 400px)
+                const maxScroll = 400;
+                const progress = Math.min(scrollY / maxScroll, 1); // 0 to 1
+
+                // 1. Image Animation
+                // Start: Large (Scale 1.3), Center (TranslateX? depends on layout)
+                // End: Normal (Scale 1), Original Position
+
+                // We want the image to start "In Focus" (Big).
+                const startScale = 1.3;
+                const endScale = 1;
+                const currentScale = startScale - (progress * (startScale - endScale));
+
+                // We want it to be "Central".
+                // On mobile, flex layout stacks them, so it's already centered horizontally usually.
+                // On desktop, it's to the right.
+                // Let's just animate Scale for now, and maybe Opacity of text.
+                // If we need to move it, we'd use Translate.
+
+                // Let's add a subtle Y movement too for true parallax
+                const translateY = scrollY * 0.2; // Move down slower than scroll
+
+                heroImage.style.transform = `scale(${currentScale}) translateY(${translateY}px)`;
+
+                // 2. Text Animation
+                // Start: Opacity 0, maybe pushed down/left
+                // End: Opacity 1, Original Position
+
+                heroText.style.opacity = progress;
+                heroText.style.transform = `translateX(${ -20 + (progress * 20) }px)`;
+            };
+
+            window.addEventListener('scroll', () => {
+                requestAnimationFrame(updateParallax);
+            });
+
+            // Initial call
+            updateParallax();
         }
     },
 
@@ -400,11 +459,26 @@ const CB = {
 
             // Swipe
             let startX = 0;
-            this.track.addEventListener('touchstart', e => startX = e.touches[0].clientX, { passive: true });
+            let startY = 0;
+
+            this.track.addEventListener('touchstart', e => {
+                startX = e.touches[0].clientX;
+                startY = e.touches[0].clientY;
+            }, { passive: true });
+
             this.track.addEventListener('touchend', e => {
                 const endX = e.changedTouches[0].clientX;
-                if (startX - endX > 50) this.next();
-                if (endX - startX > 50) this.prev();
+                const endY = e.changedTouches[0].clientY;
+
+                // Calculate deltas
+                const diffX = startX - endX;
+                const diffY = startY - endY;
+
+                // Only trigger if horizontal swipe is dominant and significant
+                if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 30) {
+                    if (diffX > 0) this.next();
+                    else this.prev();
+                }
             });
         }
     },

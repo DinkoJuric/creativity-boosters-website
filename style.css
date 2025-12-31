@@ -333,12 +333,28 @@ img {
     object-fit: cover;
     object-position: top center;
     border: 1px solid var(--border-subtle);
+
+    /* Parallax Initial State (JS will override this) */
+    transform-origin: center center;
+    will-change: transform;
 }
 
 .brand-img:hover {
     filter: brightness(1);
+    /* Hover effect disabled if JS is controlling parallax to avoid conflict,
+       or we can rely on !important in JS if needed, but standard CSS hover
+       might fight with parallax transform. Ideally, parallax uses a wrapper
+       or we just accept the slight conflict. For now, keeping it but knowing
+       it might be jumpy during scroll. */
     transform: scale(1.02);
     box-shadow: var(--glow-primary);
+}
+
+.hero-text {
+    /* Parallax Initial State */
+    opacity: 0;
+    transform: translateX(-20px);
+    transition: opacity 0.1s ease-out, transform 0.1s ease-out; /* Fast transition for scroll sync */
 }
 
 .hero h1 {
@@ -791,13 +807,39 @@ p:not(.emoji-list-item)+.emoji-list-item {
 
 /* Mobile Adjustments */
 @media (max-width: 768px) {
+    .hero-content {
+        flex-direction: column-reverse;
+        gap: 2rem;
+        padding-top: 2rem;
+    }
+
+    .hero-text {
+        width: 100%;
+        text-align: center;
+        /* Ensure it can overlap if pushed by JS parallax, or just stack nicely */
+        position: relative;
+        z-index: 2; /* Text on top */
+    }
+
+    .hero-image {
+        width: 100%;
+        margin-bottom: 1rem;
+        /* Ensure image is behind text if they overlap via negative margin or transform */
+        z-index: 1;
+    }
+
     .hero h1 {
         font-size: 2.5rem;
     }
 
+    .menu-toggle {
+        display: flex;
+    }
+
     .nav-links {
-        /*background: rgba(11, 13, 25, 0.85);
-        /* Matched to navbar opacity */
+        display: none;
+        /* Hidden by default, toggled by JS */
+        background: rgba(11, 13, 25, 0.85); /* Restored for dropdown */
         border-bottom: 2px solid var(--primary);
         backdrop-filter: blur(12px);
         -webkit-backdrop-filter: blur(12px);
@@ -1063,47 +1105,38 @@ p:not(.emoji-list-item)+.emoji-list-item {
 /* Mobile Responsiveness */
 @media (max-width: 768px) {
     .orbit-container {
-        height: auto;
-        min-height: 450px;
-        perspective: none;
-        /* Flatten for mobile */
+        height: 550px;
+        /* Restore height for 3D */
+        perspective: 1000px;
+        /* Restore perspective */
     }
 
     .orbit-track {
+        /* Restore 3D center alignment */
         display: flex;
-        overflow-x: auto;
-        justify-content: flex-start;
-        scroll-snap-type: x mandatory;
-        padding: 2rem 1rem;
-        gap: 1rem;
+        justify-content: center;
+        align-items: center;
+        overflow-x: visible;
+        /* Allow 3D overflow */
+        padding: 0;
         width: 100%;
-        /* Hide 3D positioning */
     }
 
     .orbit-item {
-        position: relative;
-        /* Normal flow */
-        min-width: 85%;
-        /* Almost full width */
-        width: 85%;
-        scroll-snap-align: center;
-        transform: none !important;
-        opacity: 1 !important;
-        filter: none !important;
+        position: absolute;
+        /* Restore absolute positioning */
+        width: 70%;
+        /* Smaller width for mobile */
+        min-width: auto;
+        scroll-snap-align: none;
         margin: 0;
-        left: auto !important;
-        right: auto !important;
+        left: auto;
+        right: auto;
+        /* Transitions will handle the rest */
     }
 
     .orbit-controls {
         display: none;
-        /* Hide buttons on mobile, natural scroll is better */
-    }
-
-    /* Ensure only center card logic doesn't mess up mobile layout */
-    .orbit-item.center,
-    .orbit-item.left,
-    .orbit-item.right {
-        transform: none;
+        /* Still hide buttons, swipe is better */
     }
 }
