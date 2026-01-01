@@ -1041,15 +1041,16 @@ p:not(.emoji-list-item)+.emoji-list-item {
     position: absolute;
     width: 400px;
     height: auto;
-    transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1); /* Apple-like "easeOutExpo" feel */
+    /* Smoother, springier transition for that premium feel */
+    transition: all 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
     cursor: pointer;
 
-    /* Glassmorphism / Apple Style */
-    background: rgba(30, 32, 45, 0.75);
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
-    border-radius: 24px; /* Super-ellipse feel */
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    /* Glassmorphism / Apple Style - Refined */
+    background: rgba(20, 22, 35, 0.7); /* Slightly darker, more transparent */
+    backdrop-filter: blur(24px) saturate(180%); /* Vibrant blur */
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    border-radius: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
     box-shadow:
         0 4px 6px rgba(0, 0, 0, 0.05),
         0 12px 24px rgba(0, 0, 0, 0.1);
@@ -1057,17 +1058,38 @@ p:not(.emoji-list-item)+.emoji-list-item {
     display: flex;
     flex-direction: column;
     overflow: hidden;
+    will-change: transform, box-shadow; /* Performance optimization */
+}
+
+/* Keyframes for the "Breathing" Pulse */
+@keyframes pulse-glow {
+    0% {
+        box-shadow:
+            0 20px 40px rgba(0, 0, 0, 0.4),
+            0 0 0 1px rgba(255, 255, 255, 0.15);
+        border-color: rgba(255, 255, 255, 0.2);
+    }
+    50% {
+        box-shadow:
+            0 30px 60px rgba(0, 0, 0, 0.5),
+            0 0 30px rgba(0, 150, 136, 0.15), /* Subtle teal glow */
+            0 0 0 1px rgba(255, 255, 255, 0.3);
+        border-color: rgba(255, 255, 255, 0.5);
+    }
+    100% {
+        box-shadow:
+            0 20px 40px rgba(0, 0, 0, 0.4),
+            0 0 0 1px rgba(255, 255, 255, 0.15);
+        border-color: rgba(255, 255, 255, 0.2);
+    }
 }
 
 /* States - Shared */
 .orbit-item.center {
     z-index: 10;
     opacity: 1;
-    /* Deeper shadow for active card to indicate depth */
-    box-shadow:
-        0 20px 40px rgba(0, 0, 0, 0.4),
-        0 0 0 1px rgba(255, 255, 255, 0.15); /* Subtle inner glow via border overlap */
-    border-color: rgba(255, 255, 255, 0.2);
+    /* Apply the breathing animation */
+    animation: pulse-glow 4s infinite ease-in-out;
 }
 
 .orbit-item.prev, .orbit-item.next {

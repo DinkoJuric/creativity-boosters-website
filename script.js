@@ -411,6 +411,9 @@ const CB = {
                 // Remove state classes, keep base
                 item.className = 'orbit-item';
 
+                // Clear any inline transform styles set by tilt effect
+                item.style.transform = '';
+
                 // Calculate distance wrapped around
                 // distance: 0 (center), 1 (next), -1 (prev), etc.
                 // We need a stable modulo logic for distance
@@ -429,19 +432,80 @@ const CB = {
                     item.classList.add('center');
                     // Enable pointer events for inner triggers only when centered
                     item.style.pointerEvents = 'auto';
+                    this.attachTiltEffect(item);
                 } else if (diff === 1) {
                     item.classList.add('next');
+                    this.removeTiltEffect(item);
                 } else if (diff === count - 1) {
                     item.classList.add('prev');
+                    this.removeTiltEffect(item);
                 } else if (diff === 2) {
                     item.classList.add('far-next');
+                    this.removeTiltEffect(item);
                 } else if (diff === count - 2) {
                     item.classList.add('far-prev');
+                    this.removeTiltEffect(item);
                 } else {
                     item.style.opacity = '0';
                     item.style.pointerEvents = 'none';
+                    this.removeTiltEffect(item);
                 }
             });
+        },
+
+        // --- TILT EFFECT LOGIC ---
+        attachTiltEffect(element) {
+            // Remove old listeners if any (to avoid duplicates, though we clean up)
+            this.removeTiltEffect(element);
+
+            // Desktop Mouse Tilt
+            element.addEventListener('mousemove', this.handleMouseMove);
+            element.addEventListener('mouseleave', this.handleMouseLeave);
+        },
+
+        removeTiltEffect(element) {
+            if (!element) return;
+            element.removeEventListener('mousemove', this.handleMouseMove);
+            element.removeEventListener('mouseleave', this.handleMouseLeave);
+            // Reset transform is handled in updateClasses or handleMouseLeave
+            // but if we switch slides fast, updateClasses handles the clear.
+        },
+
+        handleMouseMove(e) {
+            // "this" context needs to be bound or accessed carefully.
+            // Since we pass this as listener, let's use arrow function wrapper or bind.
+            // But strict function reference is needed for removeEventListener.
+            // Simpler: Define the handler on the element or globally.
+
+            // To keep it simple in this object:
+            const el = e.currentTarget;
+            const rect = el.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            // Calculate percentage (-1 to 1)
+            const xPct = (x / rect.width - 0.5) * 2;
+            const yPct = (y / rect.height - 0.5) * 2;
+
+            // Max rotation (degrees)
+            const limit = 8;
+
+            // Calculate rotation
+            // RotateY corresponds to X movement (left/right tilts card around Y axis)
+            // RotateX corresponds to Y movement (up/down tilts card around X axis)
+            // Invert Y for natural feel (cursor up -> tilt up/back)
+            const rotateY = xPct * limit;
+            const rotateX = -yPct * limit;
+
+            // Apply Transform
+            // We must preserve scale(1) for the center item
+            el.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
+        },
+
+        handleMouseLeave(e) {
+            const el = e.currentTarget;
+            // Reset to default center state
+            el.style.transform = '';
         },
 
         bindEvents() {
