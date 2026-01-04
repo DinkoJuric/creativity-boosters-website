@@ -15,6 +15,9 @@
     <link rel="stylesheet" href="style.css">
     <link rel="icon"
         href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚀</text></svg>">
+    <!-- Unicorn Studio SDK -->
+    <script
+        src="https://cdn.jsdelivr.net/gh/hiunicornstudio/unicornstudio.js@v2.0.0/dist/unicornStudio.umd.js"></script>
 </head>
 
 <body>
@@ -42,13 +45,16 @@
 
     <!-- Hero Section -->
     <header class="hero">
+        <!-- Unicorn Studio Canvas Background -->
+        <div class="hero-canvas" data-us-project="VrUy8qbZoWjpBfMb9Xrm" data-us-production="true" data-us-scale="1"
+            data-us-dpi="1.5" data-us-alttext="Creativity Boosters podcast hosts silhouettes">
+        </div>
+
+        <!-- Text Overlay -->
         <div class="container hero-content">
             <div class="hero-text fade-in-section">
                 <h1>Decode Innovation.<br>Master Creativity.<br>Lead the Market.</h1>
                 <p>Deep dives, expert interviews, and actionable frameworks.</p>
-            </div>
-            <div class="hero-image fade-in-section" style="transition-delay: 0.2s;">
-                <img src="assets/brand-image.jpg" alt="Creativity Boosters" class="brand-img">
             </div>
         </div>
     </header>
@@ -249,6 +255,13 @@
     <script src="episodes_data.js"></script>
     <!-- 2. Logic File: Uses PODCAST_DATA to render the page -->
     <script src="script.js?v=3"></script>
+
+    <!-- Unicorn Studio Init -->
+    <script>
+        UnicornStudio.init().then(scenes => {
+            console.log('Unicorn scenes ready:', scenes.length);
+        }).catch(err => console.error('Unicorn init failed:', err));
+    </script>
 </body>
 
 </html>
