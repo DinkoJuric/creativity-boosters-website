@@ -411,8 +411,11 @@ const CB = {
                 // Remove state classes, keep base
                 item.className = 'orbit-item';
 
+                // Clear any inline transform styles set by tilt effect
+                item.style.transform = '';
+
                 // Calculate distance wrapped around
-                // distance: 0 (center), 1 (right), -1 (left), etc.
+                // distance: 0 (center), 1 (next), -1 (prev), etc.
                 // We need a stable modulo logic for distance
 
                 let diff = (i - this.activeIndex) % count;
@@ -420,28 +423,89 @@ const CB = {
 
                 // Map standard diffs: 
                 // 0 -> Center
-                // 1 -> Right
-                // count-1 -> Left (equivalent to -1)
-                // 2 -> Far Right
-                // count-2 -> Far Left (equivalent to -2)
+                // 1 -> Next
+                // count-1 -> Prev (equivalent to -1)
+                // 2 -> Far Next
+                // count-2 -> Far Prev (equivalent to -2)
 
                 if (diff === 0) {
                     item.classList.add('center');
                     // Enable pointer events for inner triggers only when centered
                     item.style.pointerEvents = 'auto';
+                    this.attachTiltEffect(item);
                 } else if (diff === 1) {
-                    item.classList.add('right');
+                    item.classList.add('next');
+                    this.removeTiltEffect(item);
                 } else if (diff === count - 1) {
-                    item.classList.add('left');
+                    item.classList.add('prev');
+                    this.removeTiltEffect(item);
                 } else if (diff === 2) {
-                    item.classList.add('far-right');
+                    item.classList.add('far-next');
+                    this.removeTiltEffect(item);
                 } else if (diff === count - 2) {
-                    item.classList.add('far-left');
+                    item.classList.add('far-prev');
+                    this.removeTiltEffect(item);
                 } else {
                     item.style.opacity = '0';
                     item.style.pointerEvents = 'none';
+                    this.removeTiltEffect(item);
                 }
             });
+        },
+
+        // --- TILT EFFECT LOGIC ---
+        attachTiltEffect(element) {
+            // Remove old listeners if any (to avoid duplicates, though we clean up)
+            this.removeTiltEffect(element);
+
+            // Desktop Mouse Tilt
+            element.addEventListener('mousemove', this.handleMouseMove);
+            element.addEventListener('mouseleave', this.handleMouseLeave);
+        },
+
+        removeTiltEffect(element) {
+            if (!element) return;
+            element.removeEventListener('mousemove', this.handleMouseMove);
+            element.removeEventListener('mouseleave', this.handleMouseLeave);
+            // Reset transform is handled in updateClasses or handleMouseLeave
+            // but if we switch slides fast, updateClasses handles the clear.
+        },
+
+        handleMouseMove(e) {
+            // "this" context needs to be bound or accessed carefully.
+            // Since we pass this as listener, let's use arrow function wrapper or bind.
+            // But strict function reference is needed for removeEventListener.
+            // Simpler: Define the handler on the element or globally.
+
+            // To keep it simple in this object:
+            const el = e.currentTarget;
+            const rect = el.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            // Calculate percentage (-1 to 1)
+            const xPct = (x / rect.width - 0.5) * 2;
+            const yPct = (y / rect.height - 0.5) * 2;
+
+            // Max rotation (degrees)
+            const limit = 8;
+
+            // Calculate rotation
+            // RotateY corresponds to X movement (left/right tilts card around Y axis)
+            // RotateX corresponds to Y movement (up/down tilts card around X axis)
+            // Invert Y for natural feel (cursor up -> tilt up/back)
+            const rotateY = xPct * limit;
+            const rotateX = -yPct * limit;
+
+            // Apply Transform
+            // We must preserve scale(1) for the center item
+            el.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
+        },
+
+        handleMouseLeave(e) {
+            const el = e.currentTarget;
+            // Reset to default center state
+            el.style.transform = '';
         },
 
         bindEvents() {
@@ -452,8 +516,8 @@ const CB = {
             document.addEventListener('keydown', (e) => {
                 // Only if element is in view to avoid hijacking global scroll? 
                 // For now, simple binding.
-                if (e.key === 'ArrowLeft') this.prev();
-                if (e.key === 'ArrowRight') this.next();
+                if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') this.prev();
+                if (e.key === 'ArrowRight' || e.key === 'ArrowDown') this.next();
             });
 
             // Swipe
@@ -469,10 +533,29 @@ const CB = {
             this.track.addEventListener('touchmove', e => {
                 const currentX = e.touches[0].clientX;
                 const currentY = e.touches[0].clientY;
+                const diffY = currentY - startY;
+
+                // Only prevent scroll if we are definitely swiping vertically on the carousel
+                // and the user is NOT hitting the side margins (which are transparent track)
+                // However, detecting "margins" inside touch event on the track is tricky without element checking.
+                // Best bet: If the target is an orbit-item or inside it, we claim it.
+
+                const isItem = e.target.closest('.orbit-item');
+
+                if (isItem && Math.abs(currentY - startY) > 5) {
+                    // Prevent page scroll if dragging vertically on an item
+                    // But we must allow Horizontal scrolling if that's the intention?
+                    // No, usually you want to lock direction.
+                    // For vertical orbit: prevent default vertical scroll.
+                    if (window.innerWidth <= 768) {
+                         if (e.cancelable) e.preventDefault();
+                    }
+                }
+
                 if (Math.abs(currentX - startX) > 10 || Math.abs(currentY - startY) > 10) {
                     this.isDragging = true;
                 }
-            }, { passive: true });
+            }, { passive: false }); // Important: passive: false to allow preventDefault
 
             this.track.addEventListener('touchend', e => {
                 const endX = e.changedTouches[0].clientX;
@@ -482,10 +565,21 @@ const CB = {
                 const diffX = startX - endX;
                 const diffY = startY - endY;
 
-                // Only trigger if horizontal swipe is dominant and significant
-                if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 30) {
-                    if (diffX > 0) this.next();
-                    else this.prev();
+                // Responsive Swipe Detection
+                const isMobile = window.innerWidth <= 768;
+
+                if (isMobile) {
+                    // Vertical Swipe for Mobile
+                    if (Math.abs(diffY) > Math.abs(diffX) && Math.abs(diffY) > 30) {
+                        if (diffY > 0) this.next(); // Swipe Up -> Next
+                        else this.prev(); // Swipe Down -> Prev
+                    }
+                } else {
+                    // Horizontal Swipe for Desktop
+                    if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 30) {
+                        if (diffX > 0) this.next(); // Swipe Left -> Next
+                        else this.prev(); // Swipe Right -> Prev
+                    }
                 }
             });
         }

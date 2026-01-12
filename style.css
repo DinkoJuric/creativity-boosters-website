@@ -376,31 +376,39 @@ img {
 }
 
 .episode-meta {
-    font-size: 0.8rem;
-    color: var(--primary);
-    margin-bottom: 1rem;
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 1.25rem;
     display: flex;
-    justify-content: space-between;
+    gap: 0.5rem;
     align-items: center;
-    font-family: var(--font-heading);
+    font-family: var(--font-body); /* Switch to body font for cleaner look */
+    font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 1.5px;
 }
 
 .episode-date {
-    background: rgba(0, 150, 136, 0.1);
-    padding: 4px 10px;
-    border-radius: 4px;
+    /* Removed background for cleaner look */
+    padding: 0;
+}
+
+.episode-duration::before {
+    content: '•';
+    margin-right: 0.5rem;
+    opacity: 0.5;
 }
 
 .episode-duration {
-    color: var(--text-muted);
+    color: rgba(255, 255, 255, 0.4);
 }
 
 .episode-title {
-    font-size: 1.5rem;
+    font-size: 1.75rem;
+    font-weight: 700;
     margin-bottom: 1.5rem;
-    line-height: 1.3;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
     color: var(--text-main);
     display: -webkit-box;
     -webkit-line-clamp: 2;
@@ -410,22 +418,23 @@ img {
 }
 
 .episode-card:hover .episode-title a {
-    color: var(--primary);
+    color: var(--text-main); /* Keep white on hover */
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
 }
 
 .read-more-btn {
     background: none;
     border: none;
-    color: var(--accent);
-    font-family: var(--font-heading);
-    text-transform: uppercase;
-    font-size: 0.8rem;
-    letter-spacing: 1px;
+    color: rgba(255, 255, 255, 0.5);
+    font-family: var(--font-body);
+    font-weight: 500;
+    font-size: 0.85rem;
     cursor: pointer;
-    padding: 0;
-    margin-bottom: 1.5rem;
-    text-align: left;
-    display: inline-block;
+    padding: 1rem 0;
+    margin-top: auto;
+    width: 100%;
+    text-align: center;
+    display: block;
     transition: var(--transition);
 }
 
@@ -436,50 +445,66 @@ img {
 /* Takeaways in Card */
 .takeaways-preview {
     margin-bottom: 2rem;
-    flex-grow: 1;
-    border-left: 2px solid var(--border-subtle);
-    padding-left: 1rem;
+    flex-grow: 0;
+    border-left: none; /* Removed border */
+    padding-left: 0;
+}
+
+.takeaways-list {
+    /* Explicitly set font stack to support Emojis on Apple devices */
+    font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", var(--font-body), sans-serif;
 }
 
 .takeaways-list li {
-    font-size: 0.95rem;
+    font-size: 1rem;
     margin-bottom: 0.8rem;
     line-height: 1.5;
-    padding-left: 0;
-    color: var(--text-muted);
+    color: rgba(255, 255, 255, 0.8);
+    /* Restore natural text flow */
+    display: block;
+    /* Hanging indent for emoji bullets */
+    padding-left: 1.5rem;
+    text-indent: -1.5rem;
 }
 
 .takeaways-list li::before {
     display: none;
-    /* Removing the checkmark for cleaner look, or change color */
 }
 
 /* Episode Footer */
 .episode-footer {
-    border-top: 1px solid var(--border-subtle);
+    border-top: none;
     padding: 1.5rem 2.5rem;
-    background: rgba(0, 0, 0, 0.2);
-    margin-top: auto;
+    background: transparent;
+    margin-top: 0;
 }
 
 .listen-link {
-    font-weight: 700;
-    color: var(--text-main);
-    font-size: 0.9rem;
+    background: var(--text-main); /* White button */
+    color: var(--bg-body); /* Dark text */
+    width: 100%;
+    padding: 1rem;
+    border-radius: 50px; /* Pill shape */
+    font-weight: 600;
+    font-size: 1rem;
     display: flex;
+    justify-content: center;
     align-items: center;
-    gap: 0.8rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
+    gap: 0.5rem;
+    text-transform: none; /* Sentence case or Title case */
+    letter-spacing: 0;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .listen-link span {
-    color: var(--primary);
-    font-size: 1.2rem;
+    color: var(--primary); /* Keep brand color for icon */
+    font-size: 1rem;
 }
 
 .listen-link:hover {
-    color: var(--primary);
+    transform: scale(1.02);
+    box-shadow: 0 5px 15px rgba(255, 255, 255, 0.2);
+    color: var(--bg-body);
 }
 
 /* About Section */
@@ -972,53 +997,65 @@ p:not(.emoji-list-item)+.emoji-list-item {
 .orbit-item {
     position: absolute;
     width: 400px;
-    /* Wider card to fit content better vertically */
     height: auto;
-    /* Removed max-height constraint to allow content to flow */
-    transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+    /* Smoother, springier transition for that premium feel */
+    transition: all 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
     cursor: pointer;
-    background: var(--bg-surface);
-    border-radius: var(--radius-sm);
-    box-shadow: var(--shadow-md);
-    border: 1px solid var(--border-subtle);
+
+    /* Glassmorphism / Apple Style - Refined */
+    background: rgba(20, 22, 35, 0.7); /* Slightly darker, more transparent */
+    backdrop-filter: blur(24px) saturate(180%); /* Vibrant blur */
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    border-radius: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow:
+        0 4px 6px rgba(0, 0, 0, 0.05),
+        0 12px 24px rgba(0, 0, 0, 0.1);
+
     display: flex;
     flex-direction: column;
+    overflow: hidden;
+    will-change: transform, box-shadow; /* Performance optimization */
 }
 
-/* States */
+/* Keyframes for the "Breathing" Pulse */
+@keyframes pulse-glow {
+    0% {
+        box-shadow:
+            0 20px 40px rgba(0, 0, 0, 0.4),
+            0 0 0 1px rgba(255, 255, 255, 0.15);
+        border-color: rgba(255, 255, 255, 0.2);
+    }
+    50% {
+        box-shadow:
+            0 30px 60px rgba(0, 0, 0, 0.5),
+            0 0 30px rgba(0, 150, 136, 0.15), /* Subtle teal glow */
+            0 0 0 1px rgba(255, 255, 255, 0.3);
+        border-color: rgba(255, 255, 255, 0.5);
+    }
+    100% {
+        box-shadow:
+            0 20px 40px rgba(0, 0, 0, 0.4),
+            0 0 0 1px rgba(255, 255, 255, 0.15);
+        border-color: rgba(255, 255, 255, 0.2);
+    }
+}
+
+/* States - Shared */
 .orbit-item.center {
     z-index: 10;
-    transform: translateX(0) scale(1) rotateY(0deg);
     opacity: 1;
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
-    border-color: var(--primary);
+    /* Apply the breathing animation */
+    animation: pulse-glow 4s infinite ease-in-out;
 }
 
-.orbit-item.left {
+.orbit-item.prev, .orbit-item.next {
     z-index: 5;
-    transform: translateX(-100%) scale(0.75) rotateY(15deg);
-    /* Tighter overlap, smaller scale */
     opacity: 0.6;
-    filter: blur(1px);
 }
 
-.orbit-item.right {
-    z-index: 5;
-    transform: translateX(100%) scale(0.75) rotateY(-15deg);
-    opacity: 0.6;
-    filter: blur(1px);
-}
-
-.orbit-item.far-left {
+.orbit-item.far-prev, .orbit-item.far-next {
     z-index: 1;
-    transform: translateX(-150%) scale(0.6);
-    opacity: 0;
-    pointer-events: none;
-}
-
-.orbit-item.far-right {
-    z-index: 1;
-    transform: translateX(150%) scale(0.6);
     opacity: 0;
     pointer-events: none;
 }
@@ -1064,54 +1101,84 @@ p:not(.emoji-list-item)+.emoji-list-item {
     transform: scale(1.1);
 }
 
-/* Mobile Responsiveness */
+/* DESKTOP STYLES (Horizontal) */
+@media (min-width: 769px) {
+    .orbit-item.center {
+        transform: translateX(0) scale(1) rotateY(0deg);
+    }
+
+    .orbit-item.prev {
+        transform: translateX(-100%) scale(0.75) rotateY(15deg);
+        filter: blur(1px);
+    }
+
+    .orbit-item.next {
+        transform: translateX(100%) scale(0.75) rotateY(-15deg);
+        filter: blur(1px);
+    }
+
+    .orbit-item.far-prev {
+        transform: translateX(-150%) scale(0.6);
+    }
+
+    .orbit-item.far-next {
+        transform: translateX(150%) scale(0.6);
+    }
+}
+
+/* MOBILE STYLES (Vertical) */
 @media (max-width: 768px) {
     .orbit-container {
-        height: 500px;
-        /* Reduced to 500px as requested */
+        height: 500px; /* Fixed height as requested */
         perspective: 1000px;
-        /* Restore perspective */
-        margin-top: 6rem;
-        /* Push down to prevent covering 'Latest Episodes' header */
+        margin-top: 3rem;
     }
 
     .orbit-track {
-        /* Restore 3D center alignment */
         display: flex;
         justify-content: center;
         align-items: center;
-        overflow-x: visible;
-        /* Allow 3D overflow */
+        overflow: visible;
         padding: 0;
         width: 100%;
     }
 
     .orbit-item {
         position: absolute;
-        /* Restore absolute positioning */
-        width: 85%;
-        /* Back to 85% as requested */
+        width: 85%; /* Leave margin for scroll trap escape */
+        max-width: 340px;
         min-width: auto;
-        scroll-snap-align: none;
-        margin: 0;
-        left: auto;
-        right: auto;
-        /* Transitions will handle the rest */
+        margin: 0 auto;
+        left: 0;
+        right: 0;
     }
 
-    /* Mobile-specific spacing */
-    .orbit-item.left {
-        transform: translateX(-110%) scale(0.8) rotateY(10deg);
-        /* Push further out */
+    /* Vertical Stacking Transforms */
+    .orbit-item.center {
+        transform: translateY(0) scale(1);
     }
 
-    .orbit-item.right {
-        transform: translateX(110%) scale(0.8) rotateY(-10deg);
-        /* Push further out */
+    .orbit-item.prev {
+        /* Stack above (visually "previous" in time/list, physically above) */
+        transform: translateY(-120px) scale(0.9);
+        filter: brightness(0.7);
+    }
+
+    .orbit-item.next {
+        /* Stack below */
+        transform: translateY(120px) scale(0.9);
+        filter: brightness(0.7);
+    }
+
+    .orbit-item.far-prev {
+        transform: translateY(-200px) scale(0.8);
+    }
+
+    .orbit-item.far-next {
+        transform: translateY(200px) scale(0.8);
     }
 
     .orbit-controls {
         display: none;
-        /* Still hide buttons, swipe is better */
     }
 }
